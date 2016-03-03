@@ -1,0 +1,119 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Demographics: {{metaFactory.names.length}} characters</h2>
+            <p ng-show="metaFactory.names.length < 1 || stories.length < 1 || events.length < 1">This page is an overview of the characters, and a breakdown
+            by speaking roles, non-speaking roles, and mentioned characters. If you're seeing this line, it's because your database has
+            no characters, stories, or events.</p>
+            <div ng-hide="metaFactory.names.length < 1 || stories.length < 1 || events.length < 1">
+                <h3>
+
+                </h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Genders</h3>
+                        <nvd3 options="statsFactory.optionspie" data="statsFactory.piechart1"></nvd3>
+                     </div>
+                    <div class="col-md-4">
+                        <h3>Ages</h3>
+                        <nvd3 options="statsFactory.optionspie" data="statsFactory.piechart2"></nvd3>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Skin Tones</h3>
+                        <nvd3 options="statsFactory.optionspie" data="statsFactory.piechart3"></nvd3>
+                    </div>
+                </div>
+
+                <hr>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-horizontal">
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle >
+                                        <span ng-if="!selectFilter.story">any story</span>
+                                        <span ng-if="selectFilter.story">story: {{selectFilter.story.title}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem"
+                                            ng-repeat="option in storysFactory.storys"
+                                            ng-click="selectFilter.story = option; getStoryStats(selectFilter.story._id)"
+                                            ng-selected="{{option == selectFilter.story}}"
+                                            ng-model="selectFilter.story">
+                                            <span ng-if="option == selectFilter.story"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != selectFilter.story"><i class="icon icon-checked-no"></i></span>
+                                            {{option.title}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row margtop15">
+                        <div class="col-md-3">
+                            <h3>breakdown by gender & role</h3>
+                            <nvd3 options="statsFactory.optionsbar" data="statsFactory.allStats[0].data.barChartGender"></nvd3>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>breakdown by color & role</h3>
+                            <nvd3 options="statsFactory.optionsbar" data="statsFactory.allStats[0].data.barChartColor"></nvd3>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>speaking roles by gender</h3>
+                            <nvd3 options="statsFactory.optionsbar" data="statsFactory.allStats[0].data.barChartSpeakGender"></nvd3>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>speaking roles by color</h3>
+                            <nvd3 options="statsFactory.optionsbar" data="statsFactory.allStats[0].data.barChartSpeakColor"></nvd3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <th>count</th>
+                                    <th>character: participants</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="c in statsFactory.allStats[0].data.freq.speak[0] | orderBy: '-total' | limitTo: 10">
+                                        <td>{{c.total}}</td>
+                                        <td>{{c.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <th>count</th>
+                                    <th>character: observers</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="c in statsFactory.allStats[0].data.freq.nospeak[0] | orderBy: '-total' | limitTo: 10">
+                                        <td>{{c.total}}</td>
+                                        <td>{{c.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <th>count</th>
+                                    <th>character: mentioned</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="c in statsFactory.allStats[0].data.freq.reffed[0] | orderBy: '-total' | limitTo: 10">
+                                        <td>{{c.total}}</td>
+                                        <td>{{c.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
