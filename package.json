@@ -26,7 +26,7 @@
     "gulp-watch": "^4.1.1",
     "jsonwebtoken": "^5.4.1",
     "method-override": "^2.3.5",
-    "mongoose": "~4.0.6",
+    "mongoose": "~5.9.16",
     "nodemailer": "^1.10.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0"
