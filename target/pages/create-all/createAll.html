@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Get Started</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add characters</h3>
+                    <p>Put a new character on each row, with name, age, gender. Put a pipe | between each. If you have
+                    an empty value, put two pipes || to mark the space. For example:</p>
+                    <p>Alice|37|woman<br/>
+                    Frank||male<br/>
+                    Lee|28||</p>
+                    <p>The gender options are <em>woman</em>, <em>male</em>, <em>trans woman</em>, <em>trans male</em>, <em>nonbinary</em>, and <em>agender</em>.
+                    (The oddball difference between woman/male is for easier filtering.)</p>
+                    <p>This wil not check for duplicates within the list or in the rest of your characters. If you list a character twice, it will be created twice. </p>
+                </div>
+                <div class="col-md-4">
+                    <form class="form" role="form" novalidate name="saveChars">
+                        <div class="form-group">
+                            <textarea class="form-control"  rows="10" ng-model="list" ng-list="&#10;" ng-trim="false" placeholder="one name on each row!" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <div type="submit" class="btn btn-primary " ng-click="importCharas(list)" ng-disabled="saveChars.$invalid || saveChars.$pending">
+                        <i class="icon icon-check icolink"></i> save characters
+                    </div>
+                    <div class="alert alert-{{charamessage.type}} margtop15" role="alert">
+                        {{charamessage.text}}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add stories</h3>
+                    <p>Add at least one story, up to a maximum of six. Put the order # in the first column. (If you change this number
+                    and save, it'll reorder the stories.)</p>
+                    <p>Removing a story will remove all events associated with it. If you want to keep the events, rename the
+                    story instead.</p>
+                </div>
+                <div class="col-md-8">
+                    <form class="form-horizontal edit-form" role="form" novalidate name="saveStorys">
+                        <div class="form-group" ng-repeat="story in storydata.storys track by $index">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <input type="text" class="form-control" ng-model="story.order" placeholder="#" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4  col-xs-6">
+                                <input type="text" class="form-control" ng-model="story.title" placeholder="story title" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-6 col-sm-6  col-xs-4">
+                                <div class="btn btn-primary " ng-click="updateStory(story)"><i class="icon icon-check"></i> save</div>
+                                <div class="btn btn-default " ng-click="removeStory(story)"><i class="icon icon-clear"></i> remove</div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="storydata.storys.length < 6">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <input type="text" class="form-control" ng-model="newStory.order" placeholder="#" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4  col-xs-6">
+                                <input type="text" class="form-control" ng-model="newStory.title" placeholder="story title"required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-6 col-sm-6  col-xs-4">
+                                <div class="btn btn-default " ng-click="addStory(newStory); newStory.title = '' "  ng-disabled="saveStorys.$invalid || saveStorys.$pending"><i class="icon icon-add"></i>  add</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add events</h3>
+                    <p>Put a new event on each row, with event title, start date, end date, arc, and label. Put a pipe | between each. If you have
+                    an empty value, put two pipes || to mark the blank space. For example:</p>
+                    <p>Alice arrives|22 Mar 1814|22 Mar 1814|main story||<br/>
+                    Frank returns|Dec 1816|Dec 1816|mystery subplot|offpage<br/>
+                    Lee marries|Jan 1 1817 10am|Jan 11 1817 1pm||backstory</p>
+                    <p>(You can import from Aeon Timeline, but it'll need some tweaking to import here.)</p>
+                </div>
+                <form class="form" role="form" novalidate name="saveEvents">
+                    <div class="col-md-4">
+                        <label class="boxtop">story</label>
+                        <div uib-dropdown uib-keyboard-nav>
+                            <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                <span ng-if="newstuff.story">{{newstuff.story.title}}</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()"  >
+                                <li role="menuitem" ng-click="newstuff.story = ''">&nbsp;</li>
+                                <li role="menuitem"
+                                    ng-repeat="option in storydata.storys"
+                                    ng-click="newstuff.story = option"
+                                    ng-selected="{{option == newstuff.story}}"
+                                    ng-model="newstuff.story"
+                                    required>
+                                    <span ng-if="option == newstuff.story"><i class="icon icon-checked-yes"></i></span>
+                                    <span ng-if="option != newstuff.story"><i class="icon icon-checked-no"></i></span>
+                                    {{option.title}}
+                                </li>
+                            </ul>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <textarea class="form-control"  rows="10" ng-model="newstuff.list" ng-list="&#10;" ng-trim="false" placeholder="one event on each row!" required></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-4">
+                    <div type="submit" class="btn btn-primary " ng-click="importEvents(newstuff)" ng-disabled="saveEvents.$invalid || saveEvents.$pending">
+                        <i class="icon icon-check icolink"></i> save events
+                    </div>
+                    <div class="alert alert-{{eventmessage.type}} margtop15" role="alert">
+                        {{eventmessage.text}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

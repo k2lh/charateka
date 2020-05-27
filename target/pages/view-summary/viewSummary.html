@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Summaries from notes</h2>
+            <p>This page lists all events notes in order, broken out by story. To add notes, go to the <a href="#/view-events">Events page</a>, and
+            edit each event to include a note.</p>
+            <uib-tabset type="pills" class="margtop10">
+                <uib-tab heading="{{story.title}}" ng-repeat="(indexX,story) in storysFactory.storys track by indexX">
+                {{even.story._id}}
+                    <div ng-repeat="(indexY, even) in data.events track by indexY" ng-if="even.story._id == story._id">
+                        <p> {{even.text}}</p>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

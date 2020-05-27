@@ -1,0 +1,294 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+
+            <a href="#view-events" type="submit" class="btn btn-success pull-right" ng-click="updateEvent(editevent.eventone)"  ng-disabled="saveEvent.$invalid || saveEvent.$pending"><i class="icon icon-check"></i> save</a>
+            <span type="submit" class="btn btn-danger pull-right margright10" ng-click="removeEvent(editevent.eventone)" ><i class="icon icon-clear"></i></span>
+            <a href="#/view-events"  class=" pull-right padright" ng-click="confirmEvent(editevent.eventone)" >[ cancel ]</a>
+            <h2 ng-if="editevent.eventone.title">Edit {{editevent.eventone.title}}</h2>
+            <h2 ng-if="!editevent.eventone.title">Create new event</h2>
+            <p  ng-if="storysFactory.storys.length < 1 "> You need to add a story before you can start adding events. </p>
+
+            <form class="form-horizontal create-form" role="form" novalidate name="saveEvent">
+
+                <div class="row">
+                    <div class="col-md-9">
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label class="boxtop">story [REQUIRED]</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editevent.eventone.story">{{editevent.eventone.story.title}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editevent.eventone.story = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in storysFactory.storys"
+                                            ng-click="editevent.eventone.story = option"
+                                            ng-selected="{{option == editevent.eventone.story}}"
+                                            ng-model="editevent.eventone.story"
+                                            required>
+                                            <span ng-if="option == editevent.eventone.story"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editevent.eventone.story"><i class="icon icon-checked-no"></i></span>
+                                            {{option.title}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                                <label class="boxtop"><strong class="antag">event title</strong> [REQUIRED]</label>
+                                <input type="text" class="form-control" ng-model="editevent.eventone.title" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">start date</label>
+                                <input type="text" class="form-control" value="{{editevent.eventone.start }}" ng-model="editevent.eventone.start">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">end date</label>
+                                <input type="text" class="form-control" value="{{editevent.eventone.end }}" ng-model="editevent.eventone.end">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label class="boxtop">follows (happens after)</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editevent.eventone.follows">{{editevent.eventone.follows.title}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editevent.eventone.follows = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in editevent.events"
+                                            ng-click="editevent.eventone.follows = option"
+                                            ng-selected="{{option == editevent.eventone.follows}}"
+                                            ng-model="editevent.eventone.follows._id"
+                                            ng-if="option._id !== editevent.eventone._id">
+                                            <span ng-if="option == editevent.eventone.follows"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editevent.eventone.follows"><i class="icon icon-checked-no"></i></span>
+                                            {{option.title}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">arc</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editevent.eventone.arc">{{editevent.eventone.arc}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editevent.eventone.arc = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in metaFactory.values.arcs"
+                                            ng-click="editevent.eventone.arc = option"
+                                            ng-selected="{{option == editevent.eventone.arc}}"
+                                            ng-model="editevent.eventone.arc">
+                                            <span ng-if="option == editevent.eventone.arc"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editevent.eventone.arc"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">label</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editevent.eventone.label">{{editevent.eventone.label}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editevent.eventone.label = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in metaFactory.values.labels"
+                                            ng-click="editevent.eventone.label = option"
+                                            ng-selected="{{option == editevent.eventone.label}}"
+                                            ng-model="editevent.eventone.label">
+                                            <span ng-if="option == editevent.eventone.label"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editevent.eventone.label"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="boxtop">notes</label>
+                        <textarea rows="6" class="form-control"  ng-model="editevent.eventone.text" placeholder="notes" /></textarea>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="form-group" ng-repeat="(indexA, change) in editevent.eventone.change track by indexA">
+                    <div class="col-md-3">
+                        <label class="boxtop">character affected</label>
+                        <input type="text"
+                            ng-model="editevent.eventone.change[indexA].name"
+                            typeahead-focus-first="false"
+                            uib-typeahead="char as char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                            class="form-control" />
+                    </div>
+                    <div class="col-md-8">
+                        <label class="boxtop">change notes</label>
+                        <input type="text" class="form-control" ng-model="editevent.eventone.change[indexA].notes" placeholder="notes">
+                    </div>
+                    <div class="col-md-1">
+                            <div class="btn btn-default margtop24" ng-click="removeChange(editevent.eventone.change[indexA], [indexA])"><i class="icon icon-clear"></i></div>
+                    </div>
+                    <button class="btn btn-primary btn-sm margtop15" style="margin-left: 15px;"
+                        ng-show="$last"
+                        ng-click="addChanges()">add another change</button>
+                </div>
+
+                <hr>
+
+                <div ng-if="addNewCharLine == true" class="row">
+                    <div class="col-md-12">
+                        <form class="form-horizontal create-form" role="form" novalidate name="addnewchara">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><strong class="antag">common name</strong> [REQUIRED]</label>
+                                    <input required type="text" class="form-control" ng-model="character.name" required>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">faction</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="character.faction">{{character.faction}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="character.faction = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.faction"
+                                                ng-click="character.faction = option"
+                                                ng-selected="{{option == character.faction}}"
+                                                ng-model="character.faction">
+                                                <span ng-if="option == character.faction"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != character.faction"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>position (alt: rank, job) <span popover-placement="top" uib-popover="You can enter multiple values, separated by a comma." ><i class="icon icon-help"></i></span></label>
+                                    <input type="text"
+                                        ng-model="character.rank"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="rank as rank for rank in metaFactory.ranks | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>employer (alt: leader) </label>
+                                    <input type="text"
+                                        ng-model="character.attends"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="boxtop">age</label>
+                                    <input type="number" class="form-control" ng-model="character.age">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">gender</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="character.gender">{{character.gender}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="character.gender = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in gender"
+                                                ng-click="character.gender = option"
+                                                ng-selected="{{option == character.gender}}"
+                                                ng-model="character.gender">
+                                                <span ng-if="option == character.gender"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != character.gender"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <span type="submit" class="btn btn-success btn-sm pull-right" ng-click="addNewChar(character, editevent.eventone); addNewCharLine == false;"  ng-disabled="addnewchara.$invalid || addnewchara.$pending"><i class="icon icon-check"></i></span>
+                                    <span  class="btn btn-default btn-sm margright10" ng-click="addNewCharLine == false; cancelChar(character)" ><i class="icon icon-clear"></i></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="tagset2">
+                            <span ng-repeat="char in editevent.eventone.speak | orderBy:name" class="tag-box" ng-click="removeChar(editevent.eventone.speak, char)">
+                                <i class="icon icon-speaks"></i> {{char.name}}
+                                <i class="icon icon-clear pull-right"></i>
+                            </span>
+                        </div>
+                        <label class="boxtop padtop10">participants, have dialogue</label>
+                        <div class="input-group">
+                            <input type="text"
+                                placeholder="who"
+                                ng-model="editevent.eventone.speaknew"
+                                typeahead-focus-first="false"
+                                uib-typeahead="char as char.name for char in metaFactory.names | filter:$viewValue | limitTo:12 | orderBy:name"
+                                class="form-control" />
+                                <span class="input-group-addon" ng-click="addChar(editevent.eventone.speak, editevent.eventone.speaknew, 'tertiary', 'speak'); editevent.eventone.speaknew= '' "><i class="icon icon-add"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tagset2">
+                            <span ng-repeat="char in editevent.eventone.nospeak | orderBy:name" class="tag-box" ng-click="removeChar(editevent.eventone.nospeak, char)">
+                                <i class="icon icon-appears"></i> {{char.name}}
+                                <i class="icon icon-clear pull-right"></i>
+                            </span>
+                        </div>
+                        <label class="boxtop padtop10">observers, no dialogue</label>
+                        <div class="input-group">
+                            <input type="text"
+                                placeholder="who"
+                                ng-model="editevent.eventone.nospeaknew"
+                                typeahead-focus-first="false"
+                                uib-typeahead="char as char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                class="form-control" />
+                                <span class="input-group-addon" ng-click="addChar(editevent.eventone.nospeak, editevent.eventone.nospeaknew, 'background', 'nospeak'); editevent.eventone.nospeaknew = '' "><i class="icon icon-add"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tagset2">
+                            <span ng-repeat="char in editevent.eventone.reffed | orderBy:name" class="tag-box" ng-click="removeChar(editevent.eventone.reffed, char)">
+                                <i class="icon icon-mention"></i> {{char.name}}
+                                <i class="icon icon-clear pull-right"></i>
+                            </span>
+                        </div>
+                        <label class="boxtop padtop10">mentioned but not present</label>
+                        <div class="input-group">
+                            <input type="text"
+                                placeholder="who"
+                                ng-model="editevent.eventone.reffednew"
+                                typeahead-focus-first="false"
+                                uib-typeahead="char as char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                class="form-control" />
+                                <span class="input-group-addon" ng-click="addChar(editevent.eventone.reffed, editevent.eventone.reffednew, 'offpage', 'reffed'); editevent.eventone.reffednew = '' "><i class="icon icon-add"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

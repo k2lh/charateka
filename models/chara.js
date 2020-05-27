@@ -1,0 +1,98 @@
+var mongoose     = require('mongoose');
+var Schema       = mongoose.Schema;
+
+var CharaSchema = new Schema({
+    user_id: {
+        type: String,
+        ref: 'User'
+    },
+    name: { type: String, required: true, trim: true },
+    aka: { type: String, trim: true },
+    nick: { type: String, trim: true },
+    age: { type: Number, trim: true },
+    gender: String,
+    faction: String,
+    rank: { type: String, trim: true },
+    attends: { type: String, trim: true },
+    attendsid: { type: String, trim: true },
+    belief: { type: String, trim: true },
+    strengthbelief: String,
+    skindetail: String,
+    skin: String,
+    height: String,
+    build: String,
+    weight: String,
+    hairtype: String,
+    hairlength: String,
+    haircolor: String,
+    othermarks: { type: String, trim: true },
+    eyecolor: String,
+    eyedetail: String,
+    eyebrows: String,
+    facehair: String,
+    faceshape: String,
+    forehead: String,
+    nose: String,
+    otherface: String,
+    lips: String,
+    teeth: String,
+    gesture: String,
+    handed: String,
+    movement: String,
+    stance: String,
+    tempra1: String,
+    tempra2: String,
+    tempra3: String,
+    intelligence: String,
+    knowledge: String,
+    fight: String,
+    argue: String,
+    defense: String,
+    outlook: String,
+    romance: String,
+    likes: { type: String, trim: true },
+    dislikes: { type: String, trim: true },
+    crisis: { type: String, trim: true },
+    change: { type: String, trim: true },
+    quirks: [ String ],
+    otherquirks: String,
+    legit: Boolean,
+    adopted: Boolean,
+    heir: Boolean,
+    ochardb: [{
+        name: { type: String, trim: true },
+        category: { type: String, trim: true },
+        quality: { type: String, trim: true },
+        history: { type: String, trim: true },
+        id: { type: String, ref: 'Chara' },
+        _id: false
+    }],
+    notesochardb: { type: String, trim: true },
+    attendee: [{
+        name: { type: String, trim: true },
+        id: { type: String, trim: true },
+        _id: false
+    }],
+    tags: [String],
+    text: { type: String, trim: true },
+    roles: [{
+        story_id: {
+            type: Schema.ObjectId,
+            ref: 'Story'
+        },
+        appears: Boolean,
+        pov: Boolean,
+        role: String,
+        protag: Boolean,
+        antag: Boolean,
+        seen: { type: String, trim: true },
+        view: [ String ],
+        desire: { type: String, trim: true },
+        motivation: { type: String, trim: true },
+        obstacle: { type: String, trim: true },
+        notes: { type: String, trim: true },
+        _id: false
+    }]
+});
+
+module.exports = mongoose.model('Chara', CharaSchema);

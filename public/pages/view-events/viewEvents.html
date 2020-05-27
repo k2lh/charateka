@@ -1,0 +1,184 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <span class="btn btn-success pull-right" ng-click="makeNew()"><i class="icon icon-add"></i> add new</span>
+            <span class="btn btn-default pull-right margright10" ng-click="reorder()"><i class="icon icon-arrow_forward"></i> reset numbering</span>
+
+            <uib-tabset type="pills" class="margtop10">
+                <uib-tab heading="{{story.title}}" ng-repeat="(indexX, story) in storysFactory.storys track by indexX">
+
+<!--                    <div class="row">
+                        <div class="col-xs-3">
+                            <div class="form-horizontal">
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="!selectFilter.arc">any arc</span>
+                                        <span ng-if="selectFilter.arc">arc: {{selectFilter.arc}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="selectFilter.arc = ''">
+                                            <span ng-if="selectFilter.arc == ''"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="selectFilter.arc != ''"><i class="icon icon-checked-no"></i></span>
+                                            any arc
+                                        </li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in metaFactory.values.arcs"
+                                            ng-click="selectFilter.arc = option"
+                                            ng-selected="{{option == selectFilter.arc}}"
+                                            ng-model="selectFilter.arc">
+                                            <span ng-if="option == selectFilter.arc"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != selectFilter.arc"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-3">
+                            <div class="form-horizontal">
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="!selectFilter.label">any label</span>
+                                        <span ng-if="selectFilter.label">label: {{selectFilter.label}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="selectFilter.label = ''">
+                                            <span ng-if="selectFilter.label == ''"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="selectFilter.label != ''"><i class="icon icon-checked-no"></i></span>
+                                            any label
+                                        </li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in metaFactory.values.labels"
+                                            ng-click="selectFilter.label = option"
+                                            ng-selected="{{option == selectFilter.label}}"
+                                            ng-model="selectFilter.label">
+                                            <span ng-if="option == selectFilter.label"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != selectFilter.label"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    | filter:selectFilter.arc | filter:selectFilter.label -->
+
+                    <div class="row margtop10">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <tbody ng-repeat="(indexY, even) in eventsFactory.events  track by indexY" ng-if="even.story._id == story._id">
+                                    <tr class="check-element animate-hide" ng-show="checked[indexY]">
+                                        <td colspan="8">
+                                            <span class="antag">
+                                                This event happens after <strong>{{followsTitle}}</strong>, which is #{{orderBefore}}. Do you want to override this?
+                                            </span>
+                                            <a href="#" ng-click="$event.preventDefault(); changeOrder(even, [indexY])" class="fakebtn">Yes, change it.</a>
+                                            <a href="#" ng-click="$event.preventDefault(); resetOrder([indexY]); " class="fakebtn">No, cancel that.</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2 fallinline">
+                                           <a href="#/edit-event/{{even._id}}" class="margright10"><i class="icon icon-edit icotable icodown"></i></a>
+                                           <div class="input-group short">
+                                           <input type="number" class="form-control" ng-model="even.order" >
+                                           <span class="input-group-addon"  ng-click="checkOrder(even, [indexY])"><i class="icon icon-check"></i></span>
+                                           </div>
+                                        </td>
+                                        <td>
+                                           {{even.title}}
+                                        </td>
+                                        <td class="col-md-2">
+                                            {{even.start }}
+                                        </td>
+                                        <td class="col-md-2">
+                                            {{even.end }}
+                                        </td>
+                                        <td>
+                                            {{even.follows.title }}
+                                            <span ng-if="!even.follows.title"> &mdash; </span>
+                                        </td>
+                                        <td>
+                                            {{even.arc}}
+                                        </td>
+                                        <td>
+                                            {{even.label}}
+                                        </td>
+                                        <td class="col-md-2">
+                                            <span class="margright10"><i class="icon icon-speaks"></i> {{even.speak.length}}</span>
+                                            <span class="margright10"><i class="icon icon-appears"></i> {{even.nospeak.length}}</span>
+                                            <span class="margright10"><i class="icon icon-mention"></i> {{even.reffed.length}}</span>
+                                            <span class="margright10">{{even.change.length}} chg</span>
+                                            <span ng-click="isCollapsed = !isCollapsed">
+                                                <span ng-if="isCollapsed"><i class="icon icon-open icotable"></i></span>
+                                                <span ng-if="!isCollapsed"><i class="icon icon-close icotable"></i></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr  class="shovetop" uib-collapse="isCollapsed">
+                                        <td colspan="8">
+                                            <span class="col-md-2">
+                                                 {{even.text}}
+                                            </span>
+                                            <span class="col-md-2">
+                                                <span class="tagset2">
+                                                    <span ng-repeat="char in even.speak | orderBy:name" class="tag-box">
+                                                        <a href="#/view-character/{{char._id}}/{{char.name}}">
+                                                            <i class="icon icon-speaks"></i> {{char.name}}
+                                                            <i class="icon icon-arrow_forward pull-right"></i>
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span class="col-md-2">
+                                                <span class="tagset2">
+                                                    <span ng-repeat="char in even.nospeak | orderBy:name" class="tag-box" ng-click="removeFrom(char)">
+                                                        <a href="#/view-character/{{char._id}}/{{char.name}}">
+                                                            <i class="icon icon-appears"></i> {{char.name}}
+                                                            <i class="icon icon-arrow_forward pull-right"></i>
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span class="col-md-2">
+                                                <span class="tagset2">
+                                                    <span ng-repeat="char in even.reffed | orderBy:name" class="tag-box" ng-click="removeFrom(char)">
+                                                        <a href="#/view-character/{{char._id}}/{{char.name}}">
+                                                            <i class="icon icon-mention"></i> {{char.name}}
+                                                            <i class="icon icon-arrow_forward pull-right"></i>
+                                                        </a>
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span class="col-md-4">
+                                                <span ng-repeat="what in even.change">
+                                                    <p>
+                                                        <span ng-if="what.char_id"><a href="#/view-character/{{what.char_id}}/{{what.name}}">{{what.name}}</a></span>
+                                                        <span ng-if="!what.char_id">{{what.name}}</span>
+                                                        : {{what.notes}}</p>
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </uib-tab>
+
+
+
+            </uib-tabset>
+
+            <div  ng-repeat="even in eventsFactory.events" ng-if="even.story._id == '' || !even.story._id">
+                <p>ORPHANED EVENT: <a href="#/edit-event/{{even._id}}"><span ng-if="even.title == '' || !even.title">UNTITLED EVENT </span>{{even.title}}</a> -- click link to fix</p>
+            </div>
+
+        </div>
+    </div>
+</div>

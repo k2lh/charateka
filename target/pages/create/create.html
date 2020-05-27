@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Get Started</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add characters</h3>
+                    <p><strong>Put one name on each row.</strong> Try to limit to no more than 100 characters at a time.
+                    This wil not check for duplicates within the list or in the rest of
+                    your characters. If you list a character twice, it will be created twice. </p>
+                </div>
+                <div class="col-md-4">
+                    <form class="form" role="form" novalidate>
+                        <div class="form-group">
+                            <textarea class="form-control"  rows="10" ng-model="list" ng-list="&#10;" ng-trim="false" placeholder="one name on each row!"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <span type="submit" class="btn btn-primary " ng-click="importAll(list); list = ''">
+                        <i class="icon icon-check icolink"></i> save characters
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add stories</h3>
+                    <p>Add at least one story, up to a maximum of six. Put the order # in the first column. (If you change this number
+                    and save, it'll reorder the stories.)</p>
+                    <p>Removing a story will remove all events associated with it. If you want to keep the events, rename the
+                    story instead.</p>
+                </div>
+                <div class="col-md-8">
+                    <form class="form-horizontal edit-form" role="form" novalidate>
+                        <div class="form-group" ng-repeat="story in stories track by $index">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <input type="text" class="form-control" ng-model="story.order" placeholder="#" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4  col-xs-6">
+                                <input type="text" class="form-control" ng-model="story.title" placeholder="story title" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-6 col-sm-6  col-xs-4">
+                                <div class="btn btn-primary " ng-click="updateStory(story)"><i class="icon icon-check"></i> save</div>
+                                <div class="btn btn-default " ng-click="removeStory(story)"><i class="icon icon-clear"></i> remove</div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="stories.length < 6">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <input type="text" class="form-control" ng-model="newStory.order" placeholder="#" required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-4 col-sm-4  col-xs-6">
+                                <input type="text" class="form-control" ng-model="newStory.title" placeholder="story title"required>
+                                <span class="bar required"></span>
+                            </div>
+                            <div class="col-md-6 col-sm-6  col-xs-4">
+                                <div class="btn btn-default " ng-click="addStory(newStory); newStory.title = '' "><i class="icon icon-add"></i>  add</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Add events</h3>
+                    <p>Create a spreadsheet with five columns: title, start date, end date, arc, and label. (You can export from Aeon Timeline, but you'll
+                    have to clean up the file to make the lines look right.) Between each field, put a pipe | to indicate the separations between fields. If you have
+                    an empty field (ie, no end date), then you should end up with two pipes || where that blank field would be. See the third row, below, for
+                    an example. When you're ready, your text should look like this:</p>
+                    <p>Alice arrives|1814-03-22|1814-03-22|Global|Alice POV<br/>
+                    Frank returns|1816-12-18|1816-12-18|Global|Frank POV<br/>
+                    Lee marries|1817-01-11 10:00|1817-01-11 13:00||Alice POV</p>
+                    <p>If the dates are in a standard format (YYYY-MM-DD), the app will format them for you. If you do the dates in some other format, you may end up having to edit them.</p>
+                    <p>Select a story to associate with your events! If you skip that step, your events won't be saved.</p>
+                </div>
+                <div class="col-md-4">
+                    <label class="boxtop">story</label>
+                    <div uib-dropdown>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="newstuff.story">{{newstuff.story.title}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="newstuff.story = ''">&nbsp;</li>
+                            <li role="menuitem"
+                                ng-repeat="option in stories"
+                                ng-click="newstuff.story = option"
+                                ng-selected="{{option == newstuff.story}}"
+                                ng-model="newstuff.story">
+                                <span ng-if="option == newstuff.story"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != newstuff.story"><i class="icon icon-checked-no"></i></span>
+                                {{option.title}}
+                            </li>
+                        </ul>
+                    </div>
+                    <br />
+                    <form class="form" role="form" novalidate>
+                        <div class="form-group">
+                            <textarea class="form-control"  rows="10" ng-model="newstuff.list" ng-list="&#10;" ng-trim="false" placeholder="one event on each row!"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <span type="submit" class="btn btn-primary " ng-click="importEvents(newstuff); newstuff = [] ">
+                        <i class="icon icon-check icolink"></i> save events
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

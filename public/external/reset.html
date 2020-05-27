@@ -1,0 +1,41 @@
+<h2>charateka: password reset</h2>
+
+<div ng-if="!makenew">
+    <form name="form" ng-submit="forgot(email)" role="form">
+        <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" name="email" id="email" class="form-control" ng-model="email" required />
+            <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-block btn-primary">Reset password</button>
+        </div>
+    </form>
+</div>
+<div ng-if="makenew">
+    <form name="form" ng-submit="newpass(password, makenew)" role="form">
+        <div class="form-group">
+            <label for="password">New password*</label>
+            <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-block btn-primary">Save new password</button>
+        </div>
+    </form>
+</div>
+
+<div class="message">
+    <div ng-if="error" class="alert alert-danger" role="alert">{{error}}</div>
+    <div ng-if="message" class="alert alert-success" role="alert">{{message}}</div>
+</div>
+
+<hr>
+<div class="row">
+    <div class="col-xs-6">
+        <a href="#/login">Login</a>
+    </div>
+    <div class="col-xs-6 text-right">
+        <a href="#/register">Register</a>
+    </div>
+</div>

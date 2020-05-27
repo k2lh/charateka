@@ -1,0 +1,65 @@
+<!doctype html>
+<html ng-app="appLogin">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>charateka</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic,300' rel='stylesheet' type='text/css'>
+    <link href="libs/bootstrap-css-only/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="libs/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="assets/app.css">
+
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-route/angular-route.min.js"></script>
+    <script src="libs/ngstorage/ngStorage.min.js"></script>
+    <script src="libs/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script src="libs/angular-resource/angular-resource.min.js"></script>
+    <script src="libs/angular-animate/angular-animate.min.js"></script>
+    <script src="libs/angular-touch/angular-touch.min.js"></script>
+
+    <script src="appLogin.js"></script>
+    <script src="shared/auth-service.js"></script>
+
+</head>
+<body ng-controller="loginCtrl" ng-cloak>
+    <div class="container-fluid" >
+            <div class="index-content">
+        <div class="col-md-3 col-md-offset-1">
+            <div ng-view></div>
+        </div>
+
+        <div class="col-md-6 col-md-offset-1">
+            <div class="index-content">
+                <div class="item display">
+                    <h2 class="start">known issues</h2>
+                    <p>Currently tracked at <a href="https://github.com/k2lh/charateka/issues">github</a>. If something breaks,
+                    errors, or doesn't work like you expect, check the Issues list and add what you've found. (You'll need a github
+                    account, but it's free and is easy to set up.) You can also see an up-to-date list of issues in the footer on
+                    every page, once you log in. Just scroll down to see.</p>
+
+                    <h2 class="start">what you can do</h2>
+                    <p>Upload characters in a batch, with ages and genders.</p>
+                    <p>Track up to six stories.</p>
+                    <p>Batch import events/scenes, created in a spreadsheet, or
+                    converted from a Scrivener or Aeon Timeline output.</p>
+                    <p>Set character base information, and appearance and personality details.</p>
+                    <p>Associate characters with stories, and set the character's role, motivation, goal, obstacle, and other notes.</p>
+                    <p>Link characters as a direct hierarchial arrangement (ie employer), or list relationships in non-linked format
+                    (including to external characters not in the database).</p>
+                    <p>Characters can also be grouped by free-form tags.</p>
+                    <p>Associate characters with an event/scene as participants, observers, or as being spoken of.</p>
+                    <p>Add notes for any changes to a character, as a result of an event.</p>
+                    <p>Include notes for events, and view a compiled list as a story summary.</p>
+                    <p>View a character's history for each story, showing participation in the events timeline.</p>
+                    <p>View character demographics, overall and broken out by each story.</p>
+
+            </div>
+            </div>
+        </div>
+
+            </div>
+    </body>
+</html>

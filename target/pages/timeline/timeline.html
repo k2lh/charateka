@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <span class="btn btn-primary pull-right" ng-click="makeNew()"><i class="icon icon-add"></i> add new event</span>
+            <uib-tabset type="pills" class="margtop10">
+                <uib-tab heading="{{story.title}}" ng-repeat="(indexX,story) in stories track by indexX">
+
+                    <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <tbody ng-repeat="(indexY, even) in events track by indexY" ng-if="even.story._id == story._id">
+                                <tr class="check-element animate-hide" ng-show="checked[indexY]">
+                                    <td colspan="8">
+                                        <span class="antag">
+                                            This event happens after <strong>{{followsTitle}}</strong>, which is #{{orderBefore}}. Do you want to override this?
+                                        </span>
+                                        <a href="#" ng-click="$event.preventDefault(); changeOrder(even, [indexY])" class="fakebtn">Yes, change it.</a>
+                                        <a href="#" ng-click="$event.preventDefault(); resetOrder([indexY]); " class="fakebtn">No, cancel that.</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-2 fallinline">
+                                       <span ng-click="setEditedEvent(even._id)" class="margright10"><i class="icon icon-edit icotable"></i></span>
+                                       <input type="number" class="form-control" ng-model="even.order" >
+                                       <span class="btn btn-default btn-save" ng-click="checkOrder(even, [indexY])"><i class="icon icon-check"></i></span>
+                                    </td>
+                                    <td>
+                                       {{even.title}}
+                                    </td>
+                                    <td class="col-md-2">
+                                        {{even.start  | date:'dd MMM yyyy h:mm a' }}
+                                    </td>
+                                    <td class="col-md-2">
+                                        {{even.end  | date:'dd MMM yyyy h:mm a' }}
+                                    </td>
+                                    <td>
+                                        {{even.follows.title }}
+                                    </td>
+                                    <td>
+                                        {{even.arc}}
+                                    </td>
+                                    <td>
+                                        {{even.label}}
+                                    </td>
+                                    <td class="col-md-2">
+                                        <span class="margright10"><i class="icon icon-speaks"></i> {{even.speak.length}}</span>
+                                        <span class="margright10"><i class="icon icon-appears"></i> {{even.nospeak.length}}</span>
+                                        <span class="margright10"><i class="icon icon-mention"></i> {{even.reffed.length}}</span>
+                                        <span class="margright10">{{even.change.length}} chg</span>
+                                        <span ng-click="isCollapsed = !isCollapsed">
+                                            <span ng-if="isCollapsed"><i class="icon icon-open icotable"></i></span>
+                                            <span ng-if="!isCollapsed"><i class="icon icon-close icotable"></i></span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr  class="shovetop" uib-collapse="isCollapsed">
+                                    <td colspan="8">
+                                        <span class="col-md-4">
+                                             {{even.text}}
+                                        </span>
+                                        <span class="col-md-2">
+                                            <p ng-repeat="char in even.speak | orderBy:name">
+                                                <i class="icon icon-speaks"></i> {{char.name}}
+                                            </p>
+                                        </span>
+                                        <span class="col-md-2">
+                                            <p ng-repeat="char in even.nospeak | orderBy:name">
+                                                 <i class="icon icon-appears"></i> {{char.name}}
+                                            </p>
+                                        </span>
+                                        <span class="col-md-2">
+                                            <p ng-repeat="char in even.reffed | orderBy:name">
+                                                 <i class="icon icon-mention"></i> {{char.name}}
+                                            </p>
+                                        </span>
+                                        <span class="col-md-2">
+                                            <span ng-repeat="what in even.change">
+                                                <p>
+                                                    <a href="#/view/{{what.char_id}}/{{what.name}}">{{what.name}}</a>
+                                                    <span ng-if="what.item">  •  {{what.item}}</span>
+                                                    <span ng-if="what.value">  •  {{what.value}}</span>
+                                                    <span ng-if="what.notes">  •  {{what.notes}}</span>
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,649 @@
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  color: #333;
+  margin: 0;
+  padding: 0;
+  font: 300 14px/1.4 "Open Sans", Arial, Helvetica;
+  cursor: default;
+  background: #ECEFF1;
+  transition: all .5s ease;
+  transition-duration: 0.5s;
+  overflow: hidden;
+}
+
+body.apponly {
+  transition: all .5s ease;
+  transition-duration: 0.5s;
+  width: 80%;
+  margin-left: 20%;
+
+}
+
+body.apponly::before {
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color: #ECEFF1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.5;
+  transition: opacity 1s;
+}
+
+body.apponly::before {
+  transition: opacity 1s;
+  opacity: 0;
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color:  #ECEFF1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.container-fluid {
+  position: relative;
+  z-index: 1;
+  min-height: 1000px;
+}
+
+.navbar-default {
+  margin: 0 -15px;
+  padding: 0 15px 0 30px;
+  height: 40px;
+  background: #1A237E;
+  position: fixed;
+  width: 101%;
+  z-index: 90;
+}
+
+.apponly .navbar-default {
+  transition: all .5s ease;
+  transition-duration: 0.5s;
+  width: 81%;
+}
+
+.navbar-default a, .navbar-default .open-sidebar {
+  color: #FFF;
+  z-index: 100;
+  position: relative;
+}
+
+.navbar-default .barlink {
+  margin: 2px 0 0 20px;
+  line-height: 2.5;
+  color: #FFF;
+}
+
+.navbar-default .menudrop i {
+  margin-top: 5px;
+  text-align: right;
+  font-size: 24px;
+  position: relative;
+  top: 4px;
+}
+
+a.title {
+  font: 400 20px/1 "Open Sans", Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  top: 4px;
+}
+
+.menu.icon {
+  margin: 5px 0 0 0;
+  padding: 8px 8px 8px 0;
+  position: relative;
+  top: 8px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.dropdown-menu>li>a {
+    width: 100%;
+}
+
+.sidebar {
+  padding: 0 0px 20px 0;
+  position: fixed;
+  left: -20%;
+  width: 20%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #3F51B5;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  opacity: 1;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  direction: rtl;
+}
+
+.sidebar.apponly {
+  position: fixed;
+  overflow: hidden;
+  width: 20%;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  background: #3F51B5;
+  opacity: 1;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transform: translateX(0);
+  direction: rtl;
+}
+
+.main-content {
+  position: relative;
+  z-index: 1;
+  margin-top: 65px;
+margin-bottom: 40px;
+}
+
+.footer {
+  min-height: 400px;
+}
+
+.index-content {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+hr {
+  border-top: 1px dashed #B0BEC5;
+}
+
+ul.portal {;
+  margin: 0 0 0 -15px;
+  padding: 0 0 100px 0;
+  list-style: none;
+ overflow-y: scroll;
+  height: 105%;
+  color: #fff;
+  direction: ltr;
+}
+
+ul.portal a, ul.portal .icon {
+  color: #FFF;
+}
+
+ul.portal li {
+    cursor: pointer;
+    margin: 0 0 2px 0;
+    padding: 10px 10px 10px 20px;
+}
+
+ul.portal li:hover{
+  background: #1A237E;
+}
+
+ul.portal a {
+  padding: 10px;
+}
+
+.sidebar .btn-group {
+  width: 100%;
+  margin: 0 0 5px 0;
+}
+
+.sidebar .showList {
+  margin-top: 10px;
+}
+
+.sidebar label.btn {
+  width: 50%;
+  height: 40px;
+  padding: 8px 0;
+}
+
+.sidebar .btn-primary {
+  background: #1A237E;
+  border: 0;
+}
+
+.sidebar .btn-primary.active {
+  background: #3F51B5;
+}
+
+.item {
+  margin: 0 0 20px 0;
+  padding: 10px;
+  background: white;
+  }
+
+.index-content .item {
+  padding: 30px;
+}
+
+.item p {
+  line-height: 1;
+  margin-bottom: 0;
+  margin-left: 20px;
+  }
+
+.display p {
+  line-height: 1.4;
+  margin: 0 0 10px 0;
+  }
+
+.display .newbox {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 4px solid #ECEFF1;
+}
+
+.display .newbox.short {
+  margin-top: 0;
+}
+
+.margtop15 {
+  margin-top: 15px;
+}
+
+.margtop24 {
+  margin-top: 24px;
+}
+
+h2 {
+    margin-bottom: 15px;
+    margin-top: 5px;
+    border-bottom: 1px dashed #B0BEC5;
+    padding-bottom: 10px;
+    line-height: 2;
+    font-size: 18px;
+}
+
+h2.start {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.display h2 {
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+.control-label h2 {
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+h2.middle {
+  border: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+h3 {
+  margin-top: 0;
+  font: 300 15px/1 "Open Sans", Arial, Helvetica;
+  font-style: italic;
+}
+
+.h4, h4 {
+    font-size: 15px;
+    color: #888;
+}
+
+.newgroup {
+  border-top: 1px dotted #ECEFF1;
+  padding-top: 15px;
+}
+
+.tagset {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid #B0BEC5;
+  float: left;
+  background: #FFF;
+}
+
+.tagset2 {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.tag-box {
+  margin: 2px;
+  padding: 8px;
+  display: inline-block;
+  float: left;
+  height: 38px;
+  line-height: 1.5;
+  border: 1px solid #B0BEC5;
+  background: #ECEFF1;
+}
+
+.tagset2 .tag-box {
+  width: 100%;
+}
+
+.tagset2 .icon {
+  line-height: 1.7;
+}
+
+a, a:hover, a:link {
+text-decoration: none;
+}
+
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    background: transparent;
+    border-bottom: 1px solid #1A237E;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+  margin-bottom: 0px;
+  color: #333;
+  background-color: #FFF;
+  border-bottom: 3px solid #1A237E;
+}
+
+.tab-content>.active {
+  padding: 20px 0;
+  background-color: transparent;
+}
+
+.nav-pills>li>a {
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+  background-color: transparent;
+}
+
+
+.sidebartabs ul {
+    margin: 0 0 0 20px;
+}
+
+.sidebartabs .nav-pills>li  {
+    background: transparent;
+    padding: 0;
+    width: 15%;
+    text-align: center;
+    margin: 0;
+}
+
+.sidebartabs .nav-pills>li.active>a,
+.sidebartabs .nav-pills>li.active>a:hover,
+.sidebartabs .nav-pills>li.active>a:focus {
+  border-bottom: 0;
+}
+
+.sidebartabs .tab-content>.active {
+  padding: 0;
+}
+
+.antag {
+  color: #F44336;
+}
+
+.protag {
+  color: #2196F3;
+}
+
+label.boxtop {
+  font-weight: 300;
+  color: #999;
+  font-size: 14px;
+  display: block;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.btn .icon {
+    position: relative;
+    top: 2px;
+}
+
+.btn-fullwidth {
+  width: 100%;
+  text-align: left;
+  font-weight: 300;
+  color: #555;
+  min-height: 42px;
+}
+
+.btn .caret {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+}
+
+.btn-pad  {
+  padding: 10px 15px;
+}
+
+.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group {
+    z-index: 2;
+    margin-left: -1px;
+    padding: 10px;
+}
+
+.popover-content {
+    padding: 9px 14px;
+    color: #333;
+    font-weight: 300;
+}
+
+ul.dropselect {
+  width: 100%;
+}
+ul.dropselect li {
+    width: 100%;
+    margin: 0;
+    padding: 5px 15px;
+}
+
+ul.dropselect li:hover {
+ background: #ECEFF1;
+}
+
+.padright {
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+.margtop10 {
+  margin-top: 10px;
+}
+
+.margright10 {
+  margin-right: 10px;
+}
+
+.padtop10 {
+  padding-top: 10px;
+  clear: both;
+}
+
+.bordered {
+    margin-top: 15px;
+    border-top: 1px solid #ECEFF1;
+    padding-top: 10px;
+}
+
+.description {
+  color: #999;
+  font: 300 14px/1.4 "Open Sans", Arial, Helvetica;
+  font-style: italic;
+}
+
+.icotable, .icolink {
+  cursor: pointer;
+}
+
+.icon.icotable {
+    color: #26A69A;
+    font-size: 18px;
+}
+
+.icodown {
+    position: relative;
+    padding: 15px 5px;
+    top: 10px;
+}
+
+.message {
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.form-control, .form-group .form-control {
+    border: 1px solid #B0BEC5;
+    background-image: none;
+    -webkit-background-size: 0 2px, 100% 1px;
+    background-size: 0 2px, 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom, center -webkit-calc(100% - 1px);
+    background-position: center bottom, center calc(100% - 1px);
+    background-color: rgba(255, 255, 255, 1);
+    float: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+select.form-control, input.form-control {
+    height: 42px;
+}
+
+.form-control input[type='number'],
+.form-group .form-control input[type='number'] {
+    padding: 0;
+}
+
+.input-group-addon {
+    background-color: #fff;
+    border: 1px solid #B0BEC5;
+    border-radius: 0;
+}
+
+.fallinline input {
+  width: 50%;
+  margin-right: 10px;
+  display: inline;
+}
+
+.fallinline .btn {
+  display: inline;
+}
+
+.input-group.short {
+  width: 80%;
+  float: right;
+}
+
+.btn-save:hover {
+  background: #81C784;
+  border: 1px solid #4CAF50;
+}
+
+.checkboxlist {
+  max-height: 400px;
+  width: 100%;
+  padding: 0 10px 10px 5px;
+  display: block;
+  border: 1px solid #B0BEC5;
+  overflow-y: scroll;
+}
+
+.checkbox label, .radio label, label .checkbox, label .radio, .dropcheck label  {
+  width: 100%;
+  font-weight: 300;
+  min-height: 24px;
+  padding-left: 25px;
+}
+
+ul.dropcheck {
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dropcheck li {
+  padding: 0 0 0 10px;
+  min-width: 250px;
+  line-height: 1.5;
+}
+
+.dropcheck li .checkbox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dropselect .icon {
+  position: relative;
+  top: 2px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+.table>tbody>tr.shovetop>td {
+  vertical-align: top;
+}
+
+.table>tbody+tbody {
+  border-top: 1px solid #ddd;
+}
+
+.animate-hide {
+  transition: all linear 0.5s;
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+}
+
+.animate-hide.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}
+
+.check-element {
+  padding: 10px;
+}
+
+a.fakebtn {
+    padding: 0 0 0 40px;
+    font-weight: 400;
+}
+
+.nvd3 text {
+    font: 300 12px 'open sans';
+}

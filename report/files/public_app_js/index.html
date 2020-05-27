@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - public/app.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>public/app.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">57.22</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">110</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">12.40</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.69</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">angular.module(&#039;app&#039;, [
+    &#039;ngRoute&#039;,
+    &#039;ui.bootstrap&#039;,
+    &#039;ngSanitize&#039;,
+    &#039;ngStorage&#039;,
+    &#039;ngAnimate&#039;,
+    // &#039;angular-loading-bar&#039;,
+    &#039;checklist-model&#039;,
+    &#039;nvd3&#039;,
+    &#039;ngTouch&#039;
+]);
+
+angular.module(&#039;app&#039;).config(function($routeProvider) {
+    &#039;use strict&#039;;
+    $routeProvider
+        .when(&#039;/login&#039;, {
+            templateUrl: &#039;index.html&#039;,
+            controller: &#039;loginCtrl&#039;
+        })
+        .when(&#039;/&#039;, {
+            templateUrl: &#039;pages/view-list/viewList.html&#039;,
+            controller: &#039;viewListCtrl&#039;,
+            title: &#039;Overview&#039;
+        })
+        .when(&#039;/view-stats&#039;, {
+            templateUrl: &#039;pages/view-stats/viewStats.html&#039;,
+            controller: &#039;viewStatsCtrl&#039;,
+            title: &#039;Demographics&#039;
+        })
+        .when(&#039;/create-all&#039;, {
+            templateUrl: &#039;pages/create-all/createAll.html&#039;,
+            controller: &#039;createAllCtrl&#039;,
+            title: &#039;Set up characters, stories, events&#039;
+        })
+        .when(&#039;/edit-character/:itemId/:itemName&#039;, {
+            templateUrl: &#039;pages/edit-character/editCharacter.html&#039;,
+            controller: &#039;editCharacterCtrl&#039;,
+            // controllerAs: &#039;editchara&#039;,
+            title: &#039;Edit Character&#039;
+        })
+        .when(&#039;/view-character/:itemId/:itemName&#039;, {
+            templateUrl: &#039;pages/view-character/viewCharacter.html&#039;,
+            controller: &#039;viewCharacterCtrl&#039;,
+            title: &#039;View Character&#039;
+        })
+        .when(&#039;/edit-event/:eventId&#039;, {
+            templateUrl: &#039;pages/edit-event/editEvent.html&#039;,
+            controller: &#039;editEventCtrl&#039;,
+            title: &#039;Edit/Add Events&#039;
+        })
+        .when(&#039;/edit-event/new&#039;, {
+            templateUrl: &#039;pages/edit-event/editEvent.html&#039;,
+            controller: &#039;editEventCtrl&#039;,
+            title: &#039;Edit/Add Events&#039;
+        })
+        .when(&#039;/edit-values&#039;, {
+            templateUrl: &#039;pages/edit-values/editValues.html&#039;,
+            controller: &#039;editValuesCtrl&#039;,
+            title: &#039;Edit Values&#039;
+        })
+        .when(&#039;/view-events&#039;, {
+            templateUrl: &#039;pages/view-events/viewEvents.html&#039;,
+            controller: &#039;viewEventsCtrl&#039;,
+            title: &#039;View Events Timeline&#039;
+        })
+        .when(&#039;/view-tags&#039;, {
+            templateUrl: &#039;pages/view-tags/viewTags.html&#039;,
+            controller: &#039;viewTagsCtrl&#039;,
+            title: &#039;All Tags&#039;
+        })
+        .when(&#039;/view-list&#039;, {
+            templateUrl: &#039;pages/view-list/viewList.html&#039;,
+            controller: &#039;viewListCtrl&#039;,
+            title: &#039;Character List&#039;
+        })
+        .when(&#039;/view-info&#039;, {
+            templateUrl: &#039;pages/view-info/viewInfo.html&#039;,
+            controller: &#039;viewInfoCtrl&#039;,
+            title: &#039;Information&#039;
+        })
+        .when(&#039;/view-summary&#039;, {
+            templateUrl: &#039;pages/view-summary/viewSummary.html&#039;,
+            controller: &#039;viewSummaryCtrl&#039;,
+            title: &#039;Summary from Timeline&#039;
+        })
+        .when(&#039;/view-data&#039;, {
+            templateUrl: &#039;pages/view-data/viewData.html&#039;,
+            controller: &#039;viewDataCtrl&#039;,
+            title: &#039;Export Data&#039;
+        })
+        .otherwise({ redirectTo: &#039;/&#039; });
+
+});
+
+angular.module(&#039;app&#039;).run([&#039;$window&#039;, &#039;$rootScope&#039;,
+    function ($window, $rootScope) {
+        &#039;use strict&#039;;
+        $rootScope.$on(&#039;$locationChangeStart&#039;, function () {
+            if (!$window.sessionStorage.token || $window.sessionStorage.token == &#039;undefined&#039;) {
+                console.log(&#039;whoops not logged in?&#039;);
+                $window.location.href = &#039;index.html&#039;;
+            } else {
+                // console.log(&#039;all clear to move&#039;);
+                // if ($window.sessionStorage.error) {
+                //     $window.sessionStorage.error = &#039;&#039;;
+                // }
+            }
+        });
+
+}]);</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

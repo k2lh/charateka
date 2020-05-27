@@ -1,0 +1,309 @@
+<div class="row">
+    <div class="col-xs-12">
+
+        <div ng-if="addNewCharLine == true" class="row">
+            <div class="col-md-12">
+                <div class="item display">
+                    <form class="form-horizontal create-form" role="form" novalidate name="addnewchara">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="boxtop"><strong class="antag">common name</strong> [REQUIRED]</label>
+                                <input required type="text" class="form-control" ng-model="character.name" required>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="boxtop">faction</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="character.faction">{{character.faction}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="character.faction = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in metaFactory.values.faction"
+                                            ng-click="character.faction = option"
+                                            ng-selected="{{option == character.faction}}"
+                                            ng-model="character.faction">
+                                            <span ng-if="option == character.faction"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != character.faction"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="boxtop"><i class="icon icon-star"></i>position (alt: rank, job) <span popover-placement="top" uib-popover="You can enter multiple values, separated by a comma." ><i class="icon icon-help"></i></span></label>
+                                <input type="text"
+                                    ng-model="character.rank"
+                                    typeahead-focus-first="false"
+                                    uib-typeahead="rank as rank for rank in metaFactory.ranks | filter:$viewValue | limitTo:12"
+                                    class="form-control" />
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="boxtop"><i class="icon icon-star"></i>employer (alt: leader) </label>
+                                <input type="text"
+                                    ng-model="character.attends"
+                                    typeahead-focus-first="false"
+                                    uib-typeahead="char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                    class="form-control" />
+                            </div>
+                            <div class="col-sm-1">
+                                <label class="boxtop">age</label>
+                                <input type="number" class="form-control" ng-model="character.age">
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="boxtop">gender</label>
+                                <div uib-dropdown uib-keyboard-nav>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="character.gender">{{character.gender}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="character.gender = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in gender"
+                                            ng-click="character.gender = option"
+                                            ng-selected="{{option == character.gender}}"
+                                            ng-model="character.gender">
+                                            <span ng-if="option == character.gender"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != character.gender"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <span type="submit" class="btn btn-success btn-sm pull-right" ng-click="addNewChar(character); addNewCharLine == false;"  ng-disabled="addnewchara.$invalid || addnewchara.$pending"><i class="icon icon-check"></i></span>
+                                <span  class="btn btn-default btn-sm margright10" ng-click="addNewCharLine == false; cancelChar(character)" ><i class="icon icon-clear"></i></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="form-horizontal">
+                    <div uib-dropdown uib-keyboard-nav>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="!selectFilter.story">any story</span>
+                            <span ng-if="selectFilter.story">story: {{selectFilter.story.title}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="selectFilter.story = ''">
+                                <span ng-if="selectFilter.story == ''"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="selectFilter.story != ''"><i class="icon icon-checked-no"></i></span>
+                                any story
+                            </li>
+                            <li role="menuitem"
+                                ng-repeat="option in storysFactory.storys"
+                                ng-click="selectFilter.story = option"
+                                ng-selected="{{option == selectFilter.story}}"
+                                ng-model="selectFilter.story">
+                                <span ng-if="option == selectFilter.story"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != selectFilter.story"><i class="icon icon-checked-no"></i></span>
+                                {{option.title}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-horizontal">
+                    <div uib-dropdown uib-keyboard-nav>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="!selectFilter.faction">any faction</span>
+                            <span ng-if="selectFilter.faction">faction: {{selectFilter.faction}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="selectFilter.faction = ''">
+                                <span ng-if="selectFilter.faction == ''"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="selectFilter.faction != ''"><i class="icon icon-checked-no"></i></span>
+                                any faction
+                            </li>
+                            <li role="menuitem"
+                                ng-repeat="option in metaFactory.values.faction"
+                                ng-click="selectFilter.faction = option"
+                                ng-selected="{{option == selectFilter.faction}}"
+                                ng-model="selectFilter.faction">
+                                <span ng-if="option == selectFilter.faction"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != selectFilter.faction"><i class="icon icon-checked-no"></i></span>
+                                {{option}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-horizontal">
+                    <div uib-dropdown uib-keyboard-nav>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="!selectFilter.gender">any gender</span>
+                            <span ng-if="selectFilter.gender">gender: {{selectFilter.gender}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="selectFilter.gender = ''">
+                                <span ng-if="selectFilter.gender == ''"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="selectFilter.gender != ''"><i class="icon icon-checked-no"></i></span>
+                                any gender
+                            </li>
+                            <li role="menuitem"
+                                ng-repeat="option in gender"
+                                ng-click="selectFilter.gender = option"
+                                ng-selected="{{option == selectFilter.gender}}"
+                                ng-model="selectFilter.gender">
+                                <span ng-if="option == selectFilter.gender"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != selectFilter.gender"><i class="icon icon-checked-no"></i></span>
+                                {{option}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-horizontal">
+                    <div uib-dropdown uib-keyboard-nav>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="!selectFilter.role">any role</span>
+                            <span ng-if="selectFilter.role">role: {{selectFilter.role}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="selectFilter.role = ''">
+                                <span ng-if="selectFilter.role == ''"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="selectFilter.role != ''"><i class="icon icon-checked-no"></i></span>
+                                any role
+                            </li>
+                            <li role="menuitem"
+                                ng-repeat="option in role"
+                                ng-click="selectFilter.role = option"
+                                ng-selected="{{option == selectFilter.role}}"
+                                ng-model="selectFilter.role">
+                                <span ng-if="option == selectFilter.role"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != selectFilter.role"><i class="icon icon-checked-no"></i></span>
+                                {{option}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-horizontal">
+                    <div uib-dropdown uib-keyboard-nav>
+                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                            <span ng-if="!selectFilter.rank">any position</span>
+                            <span ng-if="selectFilter.rank">position: {{selectFilter.rank}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                            <li role="menuitem" ng-click="selectFilter.rank = ''">
+                                <span ng-if="selectFilter.rank == ''"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="selectFilter.rank != ''"><i class="icon icon-checked-no"></i></span>
+                                any position
+                            </li>
+                            <li role="menuitem"
+                                ng-repeat="option in metaFactory.ranks"
+                                ng-click="selectFilter.rank = option"
+                                ng-selected="{{option == selectFilter.rank}}"
+                                ng-model="selectFilter.rank">
+                                <span ng-if="option == selectFilter.rank"><i class="icon icon-checked-yes"></i></span>
+                                <span ng-if="option != selectFilter.rank"><i class="icon icon-checked-no"></i></span>
+                                {{option}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2" ng-if="addNewCharLine == false" >
+                <span  class="btn btn-success btn-pad pull-right" ng-click="addNewChara()"><i class="icon icon-add"></i> character</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="margtop15 item display">
+                    <table class="table table-hover  table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>name</th>
+                                <th></th>
+                                <th>age</th>
+                                <th>gender</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>faction</th>
+                                <th>position</th>
+                                <th>employer</th>
+                                <th class="text-center" ng-repeat="story in storysFactory.storys">{{story.title}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in charactersFactory.characterlist | orderBy:'name' | filter:selectFilter.faction | filter:selectFilter.gender | filter:selectFilter.rank | filter:selectFilter.role" ng-if="item.filter.indexOf(selectFilter.story._id) > -1 || selectFilter.story._id == undefined">
+                                <td><a href="#/edit-character/{{item._id}}/{{item.name}}"><i class="icon icon-edit  icotable"></i></a></td>
+                                <td><a href="#/view-character/{{item._id}}/{{item.name}}">{{item.name}}</a></td>
+                                <td>
+                                    {{item.aka}}
+                                </td>
+                                <td>{{item.age}}</td>
+                                <td>
+                                    <div ng-show="item.gender == 'male'"><i class="icon icon-male"></i></div>
+                                    <div ng-show="item.gender == 'woman'"><i class="icon icon-female"></i></div>
+                                    <div ng-show="item.gender == 'trans male'"><i class="icon icon-male-in"></i></div>
+                                    <div ng-show="item.gender == 'trans woman'"><i class="icon icon-female-in"></i></div>
+                                    <div ng-show="item.gender == 'nonbinary'"><i class="icon icon-nb"></i></div>
+                                    <div ng-show="item.gender == 'agender'"><i class="icon icon-nb-in"></i></div>
+                                </td>
+                                <td><div ng-show="item.legit == true"><i class="icon icon-legit"></i></div></td>
+                                <td><div ng-show="item.adopted == true"><i class="icon icon-adopted"></i></div></td>
+                                <td><div ng-show="item.heir == true"><i class="icon icon-heir"></i></div></td>
+                                <td>{{item.faction}}</td>
+                                <td>{{item.rank}}</td>
+                                <td>
+                                    <span ng-if="item.attendsid"><a href="#/view-character/{{item.attendsid}}/{{item.attends}}">{{item.attends}}</a></span>
+                                    <span ng-if="!item.attendsid">{{item.attends}}</span>
+                                </td>
+                                <td class="text-center" ng-repeat="story in storysFactory.storys track by $index">
+                                    <div  ng-class="{ 'antag': item.roles[$index].antag, 'protag': item.roles[$index].protag}">
+                                        <!--<div ng-show="item.roles[$index].appears === true">{{story.title}}</div>-->
+                                        <div ng-show="item.roles[$index].role == 'primary' && item.roles[$index].pov != true && item.roles[$index].antag != true"><i class="icon icon-primary"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'primary' && item.roles[$index].pov == true && item.roles[$index].antag != true"><i class="icon icon-primary-pov"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'primary' && item.roles[$index].pov != true && item.roles[$index].antag == true"><i class="icon icon-primary-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'primary' && item.roles[$index].pov == true && item.roles[$index].antag == true"><i class="icon icon-primary-pov-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'secondary' && item.roles[$index].pov != true && item.roles[$index].antag != true"><i class="icon icon-secondary"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'secondary' && item.roles[$index].pov == true && item.roles[$index].antag != true"><i class="icon icon-secondary-pov"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'secondary' && item.roles[$index].pov != true && item.roles[$index].antag == true"><i class="icon icon-secondary-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'secondary' && item.roles[$index].pov == true && item.roles[$index].antag == true"><i class="icon icon-secondary-pov-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'tertiary' && item.roles[$index].pov != true && item.roles[$index].antag != true"><i class="icon icon-tertiary"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'tertiary' && item.roles[$index].pov == true && item.roles[$index].antag != true"><i class="icon icon-tertiary-pov"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'tertiary' && item.roles[$index].pov != true && item.roles[$index].antag == true"><i class="icon icon-tertiary-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'tertiary' && item.roles[$index].pov == true && item.roles[$index].antag == true"><i class="icon icon-tertiary-pov-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'background' && item.roles[$index].antag != true"><i class="icon icon-background"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'background' && item.roles[$index].antag == true"><i class="icon icon-background-antag"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'offpage' && item.roles[$index].antag != true"><i class="icon icon-offpage"></i></div>
+                                        <div ng-show="item.roles[$index].role == 'offpage' && item.roles[$index].antag == true"><i class="icon icon-offpage-antag"></i></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div  class="col-md-6" ng-if="storysFactory.storys == undefined || storysFactory.storys == ''">
+                You haven't added anything yet! <a href="#/create-all">Get started by adding characters and at least one story. </a>
+            </div>
+        </div>
+
+
+    </div>
+</div>

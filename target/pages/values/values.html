@@ -1,0 +1,249 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <a href="#/list" type="submit" class="btn btn-primary pull-right" ng-click="updateValues(values)"><i class="icon icon-check"></i> update values</a>
+            <a href="#/list"  class=" pull-right padright">[ cancel ]</a>
+            <h2 >Edit default values</h2>
+
+                <form class="form-horizontal edit-form" role="form" novalidate>
+
+                    <uib-tabset type="pills">
+
+                        <uib-tab heading="notes">
+
+                        <h3>Events settings</h3>
+                        <p>Every event can also be tagged with an arc and a label. These can be whatever you want, and will appear in a drop-down
+                        when you create an event. Put one value on each row. (Do not include a comma at the end of a line, or it'll show up in the dropdown selections.)</p>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="boxtop">event arcs</label>
+                                <textarea class="form-control"  rows="6" ng-model="values.arcs" ng-list="&#10;" ng-trim="false"></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="boxtop">event labels</label>
+                                <textarea class="form-control"  rows="6" ng-model="values.labels" ng-list="&#10;" ng-trim="false"></textarea>
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <h3>Additional notes</h3>
+                            <p>By default, characters are displayed in the side-menu and all dropdowns with the 'full' name. If you don't enter a full name, the common (default) name
+                            will be used.</p>
+
+                            <p><strong>About protags values</strong>: this is a simple list, so if you change the order of your protagonists in this list, it will NOT
+                            change the values in any existing characters. Instead, you'll find that if you flipped the order of A and B, A now has the value for B, etc. If you want
+                            to edit protagonists, either add new ones at the end and ignore the rest, or be prepared to edit your existing characters.</p>
+                            <p><strong>Editing/adding values</strong>: make sure each value is on its own line. If a box is too small, some lines may wrap. As long as you don't have a 'return' in there, it counts as one line.
+                            You do NOT need to put a comma at the end of each line. This will just result in a value with a comma at the end. If you enter any html, it
+                            will not be output as html, but as the original code. The application isn't going to process that in drop-downs. Use utf-8 characters, instead. If you change a value after creating a character, this will NOT change the values for existing characters.
+                            Removing all values will not remove the option from the character creation; it will just give you an empty drop-down.</p>
+                            <p class="antag">Please do not hose the database with malicious code. Thank you.</p>
+
+                        </uib-tab>
+
+                        <uib-tab heading="base values">
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">protagonists (max 6)</label>
+                                    <textarea class="form-control"  rows="6" ng-model="values.protags" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">strength of belief</label>
+                                    <textarea class="form-control"  rows="6" ng-model="values.strengthbelief" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">relationship roles</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.relationtype" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">faction</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.faction" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+
+                        <uib-tab heading="appearance, general">
+
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="boxtop">gestures</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.gesture" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">handedness</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.handed" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">height</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.height" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">build</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.build" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">weight</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.weight" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">skin type</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.skindetail" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">skin color</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.skin" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">movement</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.movement" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">stance</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.stance" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+
+                            </div>
+
+                        </uib-tab>
+
+
+                        <uib-tab heading="appearance, face">
+
+                            <div class="form-group">
+
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eyebrows</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.eyebrows" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">face shape</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.faceshape" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">forehead</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.forehead" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">teeth</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.teeth" ng-list="&#10;" ng-trim="false"></textarea>
+                               </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">otherface</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.otherface" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eye color</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.eyecolor" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eye type</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.eyedetail" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">nose</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.nose" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">lips</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.lips" ng-list="&#10;" ng-trim="false"></textarea>
+                               </div>
+
+                            </div>
+                            <hr>
+
+                        </uib-tab>
+
+
+                        <uib-tab heading="appearance, hair">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair length</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.hairlength" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair type</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.hairtype" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair color</label>
+                                    <textarea class="form-control"  rows="16" ng-model="values.haircolor" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">facial hair</label>
+                                    <textarea class="form-control"  rows="10" ng-model="values.facehair" ng-list="&#10;" ng-trim="false"></textarea>
+                               </div>
+                            </div>
+                        </uib-tab>
+
+
+                        <uib-tab heading="personality">
+
+                            <div class="form-group">
+
+                                <div class="col-sm-2">
+                                    <label class="boxtop">intelligence</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.intelligence" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">fighting style</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.fight" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">outlook</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.outlook" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">romantic style</label>
+                                    <textarea class="form-control"  rows="8" ng-model="values.romance" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="boxtop">knowledge</label>
+                                    <textarea class="form-control"  rows="12" ng-model="values.knowledge" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">argument style</label>
+                                    <textarea class="form-control"  rows="12" ng-model="values.argue" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">defense mechanism</label>
+                                    <textarea class="form-control"  rows="12" ng-model="values.defense" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+                        <uib-tab heading="long lists">
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <label class="boxtop">quirks</label>
+                                    <textarea class="form-control"  rows="48" ng-model="values.quirks" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">traits</label>
+                                    <textarea class="form-control"  rows="24" ng-model="values.traits" ng-list="&#10;" ng-trim="false"></textarea>
+                                    <hr>
+                                    <label class="boxtop">interactions</label>
+                                    <textarea class="form-control"  rows="24" ng-model="values.relationquality" ng-list="&#10;" ng-trim="false"></textarea>
+                                </div>
+                            </div>
+                        </uib-tab>
+
+
+                    </uib-tabset>
+
+                </form>
+        </div>
+    </div>
+</div>

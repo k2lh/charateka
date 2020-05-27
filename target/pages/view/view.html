@@ -1,0 +1,244 @@
+<div class="item display">
+    <a href="#/list"  class="close" ng-click="deleteItem(viewItem._id)"><i class="icon icon-clear"></i></a>
+    <h2>
+        <span ng-click="setEditedItem(viewItem._id)"><i class="icon icon-edit icolink"></i></span>
+        {{viewItem.name}} <span ng-show="viewItem.aka">({{viewItem.aka}})</span>
+    </h2>
+
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>age</th>
+                <th>gender</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>faction</th>
+                <th>position</th>
+                <th>employer</th>
+                <th>religion</th>
+                <th class="text-center" ng-repeat="story in stories track by $index">{{story.title}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{viewItem.age}}</td>
+                <td>
+                    <div ng-show="viewItem.gender == 'male'"><i class="icon icon-male"></i></div>
+                    <div ng-show="viewItem.gender == 'woman'"><i class="icon icon-female"></i></div>
+                    <div ng-show="viewItem.gender == 'trans male'"><i class="icon icon-male-in"></i></div>
+                    <div ng-show="viewItem.gender == 'trans woman'"><i class="icon icon-female-in"></i></div>
+                    <div ng-show="viewItem.gender == 'nobinary'"><i class="icon icon-nb"></i></div>
+                    <div ng-show="viewItem.gender == 'agender' "><i class="icon icon-nb-in"></i></div>
+                </td>
+                <td><div ng-show="viewItem.family.legit == true"><i class="icon icon-legit"></i></div></td>
+                <td><div ng-show="viewItem.family.adopted == true"><i class="icon icon-adopted"></i></div></td>
+                <td><div ng-show="viewItem.family.heir == true"><i class="icon icon-heir"></i></div></td>
+                <td>{{viewItem.faction}}</td>
+                <td>{{viewItem.rank}}</td>
+                <td>
+                    <span ng-if="viewItem.attendsid"><a href="#/view/{{viewItem.attendsid}}/{{viewItem.attends}}">{{viewItem.attends}}</a></span>
+                    <span ng-if="!viewItem.attendsid">{{item.attends}}</span>
+                </td>
+                <td>{{viewItem.strengthbelief}} {{viewItem.belief}}</td>
+                <td class="text-center" ng-repeat="(indexX, story) in stories track by indexX">
+                    <div  ng-class="{ 'antag': viewItem.storyset[indexX].antag, 'protag': viewItem.storyset[indexX].pov }">
+                        <div ng-show="viewItem.storyset[indexX].role == 'primary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag != true"><i class="icon icon-primary"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'primary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag != true"><i class="icon icon-primary-pov"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'primary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag == true"><i class="icon icon-primary-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'primary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag == true"><i class="icon icon-primary-pov-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'secondary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag != true"><i class="icon icon-secondary"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'secondary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag != true"><i class="icon icon-secondary-pov"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'secondary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag == true"><i class="icon icon-secondary-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'secondary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag == true"><i class="icon icon-secondary-pov-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'tertiary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag != true"><i class="icon icon-tertiary"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'tertiary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag != true"><i class="icon icon-tertiary-pov"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'tertiary' && viewItem.storyset[indexX].pov != true && viewItem.storyset[indexX].antag == true"><i class="icon icon-tertiary-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'tertiary' && viewItem.storyset[indexX].pov == true && viewItem.storyset[indexX].antag == true"><i class="icon icon-tertiary-pov-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'background' && viewItem.storyset[indexX].antag != true"><i class="icon icon-background"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'background' && viewItem.storyset[indexX].antag == true"><i class="icon icon-background-antag"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'offpage' && viewItem.storyset[indexX].antag != true"><i class="icon icon-offpage"></i></div>
+                        <div ng-show="viewItem.storyset[indexX].role == 'offpage' && viewItem.storyset[indexX].antag == true"><i class="icon icon-offpage-antag"></i></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row newbox">
+        <div class="col-xs-12">
+            <uib-tabset type="pills">
+                <uib-tab heading="general">
+
+                    <div class="row short">
+                        <div class="col-xs-3">
+                            <span ng-show="viewItem.outlook"><span class="description">outlook</span>: {{viewItem.outlook}}<br /></span>
+                            <span ng-show="viewItem.tempra1"><span class="description">according to self</span>: {{viewItem.tempra1}}<br /></span>
+                            <span ng-show="viewItem.tempra2"><span class="description">according to allies</span>: {{viewItem.tempra2}}<br /></span>
+                            <span ng-show="viewItem.tempra3"><span class="description">according to enemies</span>: {{viewItem.tempra3}}<br /></span>
+                        </div>
+                        <div class="col-xs-4">
+                            <span ng-show="viewItem.fight"><span class="description">fighting</span>: {{viewItem.fight}}<br /></span>
+                            <span ng-show="viewItem.argue"><span class="description">arguing</span>: {{viewItem.argue}}<br /></span>
+                            <span ng-show="viewItem.defense"><span class="description">defense mechanism</span>: {{viewItem.defense}}<br /></span>
+                        </div>
+                        <div class="col-xs-5">
+                            <span ng-show="viewItem.intelligence"><span class="description">intelligence</span>: {{viewItem.intelligence}}<br /></span>
+                            <span ng-show="viewItem.knowledge"><span class="description">knowledge</span>: {{viewItem.knowledge}}<br /></span>
+                            <span ng-show="viewItem.romance"><span class="description">romantic style</span>: {{viewItem.romance}}<br /></span>
+                        </div>
+                    </div>
+                    <div class="row bordered">
+                        <div class="col-xs-6">
+                            <span ng-show="viewItem.likes"><span class="description">likes</span>: {{viewItem.likes}}<br /></span>
+                            <span ng-show="viewItem.dislikes"><span class="description">dislikes</span>: {{viewItem.dislikes}}<br /></span>
+                        </div>
+                        <div class="col-xs-6">
+                            <span ng-show="viewItem.crisis"><span class="description">reaction to crisis</span>: {{viewItem.crisis}}<br /></span>
+                            <span ng-show="viewItem.change"><span class="description">reaction to change</span>: {{viewItem.change}}<br /></span>
+                        </div>
+                    </div>
+                    <div class="row bordered" >
+                        <div class="col-xs-2" ng-show="viewItem.tags">
+                            <span ng-repeat="tag in viewItem.tags">{{tag}}{{$last ? '' : ' • '}}</span>
+                        </div>
+                        <div class="col-xs-5">
+                            <p><span ng-repeat="quirk in viewItem.quirks">{{quirk}}<br /></span></p>
+                        </div>
+                        <div class="col-xs-5">
+                            <p>{{viewItem.otherquirks}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row newbox">
+                        <div class="col-xs-2">
+                            <span ng-show="viewItem.height">{{viewItem.height}} <br /></span>
+                            <span ng-show="viewItem.weight"> {{viewItem.weight}} <br /></span>
+                            <span ng-show="viewItem.build"> {{viewItem.build}} build <br /></span>
+                            <span ng-show="viewItem.skin"> {{viewItem.skindetail}} {{viewItem.skin}} skin </span>
+                        </div>
+                        <div class="col-xs-3">
+                            <span ng-show="viewItem.gesture"> {{viewItem.gesture}}<br /></span>
+                            <span ng-show="viewItem.handed"> {{viewItem.handed}}<br /></span>
+                            <span ng-show="viewItem.movement"> {{viewItem.movement}}<br /></span>
+                            <span ng-show="viewItem.stance"> {{viewItem.stance}}</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <span ng-show="viewItem.haircolor">{{viewItem.hairtype}} {{viewItem.hairlength}} {{viewItem.haircolor}} hair<br /></span>
+                            <span ng-show="viewItem.eyecolor || viewItem.eyedetail"> {{viewItem.eyedetail}} {{viewItem.eyecolor}} eyes<br /></span>
+                            <span ng-show="viewItem.eyebrows"> {{viewItem.eyebrows}} brows</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <span ng-show="viewItem.faceshape">{{viewItem.faceshape}} shape<br /></span>
+                            <span ng-show="viewItem.forehead"> {{viewItem.forehead}} <br /></span>
+                            <span ng-show="viewItem.facehair">; {{viewItem.facehair}} <br /></span>
+                            <span ng-show="viewItem.nose"> {{viewItem.nose}} nose</span>
+                        </div>
+                        <div class="col-xs-2">
+                            <span ng-show="viewItem.lips"> {{viewItem.lips}} lips<br /></span>
+                            <span ng-show="viewItem.teeth"> {{viewItem.teeth}} teeth<br /></span>
+                            <span ng-show="viewItem.cheeks"> {{viewItem.otherface}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="viewItem.othermarks">
+                        <p><span class="description">other identifying features</span>: {{viewItem.othermarks}} </p>
+                    </div>
+
+                    <div class="row newbox">
+                        <div class="col-xs-8">
+                            <p class="description">personal relationships</p>
+                            <p>
+                                <span ng-repeat="char in viewItem.ochardb">
+                                    <span ng-if="char.id"><a href="#/view/{{char.id}}/{{char.name}}">{{char.name}}</a></span>
+                                    <span ng-if="!char.id">{{char.name}}</span>
+                                        • {{char.level}} {{char.type}}
+                                        <span ng-show="char.quality"> • {{char.quality}}</span>
+                                        <span ng-show="char.history"> • {{char.history}}</span><br />
+                                </span>
+                            </p>
+                            <p>{{viewItem.notesochardb}}</p>
+                        </div>
+                        <div class="col-xs-4" ng-if="viewItem.attendee">
+                            <p class="description">work/formal relationships</p>
+                            <p>
+                                <span ng-repeat="char in viewItem.attendee">
+                                    <a href="#/view/{{char.id}}/{{char.name}}">{{char.name}}</a><br />
+                                </span>
+                            </p>
+                         </div>
+                    </div>
+
+                    <div class="row newbox" ng-show="viewItem.text">
+                        <div class="col-xs-12">
+                            <p>{{viewItem.text}}</p>
+                        </div>
+                    </div>
+
+                </uib-tab>
+
+                <uib-tab ng-repeat="(indexX, story) in stories track by indexX" heading="{{story.title}}" ng-show="viewItem.storyset[indexX].appears == true">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <span ng-show="viewItem.storyset[indexX].pov == true"> POV  • </span> {{viewItem.storyset[indexX].role}}
+                            <span ng-show="viewItem.storyset[indexX].protag == true">  •   protagonist</span>
+                            <span ng-show="viewItem.storyset[indexX].antag == true">  •   antagonist</span></p>
+                            <p class="description">{{viewItem.name}}'s self-perception</span>: {{viewItem.storyset[indexX].seen}}</p>
+                            <span ng-hide="viewItem.storyset[indexX].protag == true">
+                                <p><span ng-repeat="(indexY, name) in values.protags track by indexY">
+                                    <span class="description">{{viewItem.name}}'s view of {{name}}</span>: {{viewItem.storyset[indexX].view[indexY]}}<br />
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-xs-6">
+                            <p><span class="description">goal</span>:  {{viewItem.storyset[indexX].desire}}</p>
+                            <p><span class="description">motivation</span>: {{viewItem.storyset[indexX].motivation}}</p>
+                            <p><span class="description">obstacle</span>: {{viewItem.storyset[indexX].obstacle}}</p>
+                        </div>
+                    </div>
+                    <div class="newbox">
+                        <div ng-repeat="(indexZ, hist) in history track by indexZ" ng-if="history[indexZ].story == viewItem.storyset[indexX].story">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="text-right"><strong> {{history[indexZ].start | date: 'MMM dd, yyyy' }} <span ng-if="history[indexZ].start != history[indexZ].end">{{history[indexZ].end | date: 'MMM dd, yyyy' }}</span> •
+                                        {{history[indexZ].title}}</strong></p>
+                                </div>
+                                <div ng-repeat="(indexY, event) in history[indexZ].change track by indexY" ng-if="history[indexZ].change[indexY].char_id == itemId">
+                                    <div class="col-md-2">
+                                        <p><span class="description">affected:</span>{{history[indexZ].change[indexY].item}}</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p><span class="description">result:</span>{{history[indexZ].change[indexY].value}}</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p><span class="description">notes:</span> {{history[indexZ].change[indexY].notes}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <p ng-repeat="(indexA, event) in history[indexZ].speak track by indexA" ng-if="history[indexZ].speak[indexA]._id == itemId">
+                                        <i class="icon icon-speaks"></i> speaking role
+                                    </p>
+                                    <p ng-repeat="(indexA, event) in history[indexZ].nospeak track by indexA" ng-if="history[indexZ].nospeak[indexA]._id == itemId">
+                                        <i class="icon icon-appears"></i> appears, no dialogue
+                                    </p>
+                                    <p ng-repeat="(indexA, event) in history[indexZ].reffed track by indexA" ng-if="history[indexZ].reffed[indexA]._id == itemId">
+                                        <i class="icon icon-mention"></i> does not appear, is mentioned
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row bordered" ng-show="viewItem.storyset[indexX].notes">
+                        <div class="col-xs-12">
+                            {{viewItem.storyset[indexX].notes}}
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+
+
+</div>

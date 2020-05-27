@@ -1,0 +1,1046 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <a href="#/view-character/{{editchara.character._id}}/{{editchara.character.name}}" type="submit" class="btn btn-success pull-right" ng-click="updateChara(editchara.character)" ng-disabled="editChara.$invalid || editChara.$pending"><i class="icon icon-check"></i> save</a>
+            <a href="#/view-list" class=" pull-right padright">[ cancel ]</a>
+            <h2 >Edit {{editchara.character.name}} ({{editchara.character.aka}})</h2>
+
+            <form class="form-horizontal create-form" role="form" novalidate name="editChara">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label class="boxtop"><strong class="antag">common name</strong> [REQUIRED]</label>
+                            <input required type="text" class="form-control" ng-model="editchara.character.name" required>
+                        </div>
+                        <div class="col-sm-9">
+                            <label class="boxtop">stories</label>
+                            <div class="btn-group">
+                                <label  class="btn btn-default"
+                                uib-btn-checkbox
+                                ng-model="editchara.character.roles[$index].appears"
+                                ng-click="addStorySet($index)"
+                                ng-repeat="story in storysFactory.storys track by $index">{{story.title}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <uib-tabset type="pills">
+
+                        <uib-tab heading="base">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="boxtop">full name</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.aka">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">other/nick names</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.nick">
+                                </div>
+                                <div class="col-sm-1">
+                                    <label class="boxtop">age</label>
+                                    <input type="number" class="form-control" ng-model="editchara.character.age">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">gender</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.gender">{{editchara.character.gender}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.gender = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in gender"
+                                                ng-click="editchara.character.gender = option"
+                                                ng-selected="{{option == editchara.character.gender}}"
+                                                ng-model="editchara.character.gender">
+                                                <span ng-if="option == editchara.character.gender"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.gender"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">family role</label>
+                                    <div class="btn-group">
+                                        <label class="btn btn-default" ng-model="editchara.character.legit" uib-btn-checkbox><i class="icon icon-legit"></i> legit</label>
+                                        <label class="btn btn-default" ng-model="editchara.character.adopted" uib-btn-checkbox><i class="icon icon-adopted"></i> adopted</label>
+                                        <label class="btn btn-default" ng-model="editchara.character.heir" uib-btn-checkbox><i class="icon icon-heir"></i> heir</label>
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">faction</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.faction">{{editchara.character.faction}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.faction = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.faction"
+                                                ng-click="editchara.character.faction = option"
+                                                ng-selected="{{option == editchara.character.faction}}"
+                                                ng-model="editchara.character.faction">
+                                                <span ng-if="option == editchara.character.faction"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.faction"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop"><i class="icon icon-star"></i>position (alt: rank, job) <span popover-placement="top" uib-popover="You can enter multiple values, separated by a comma." ><i class="icon icon-help"></i></span></label>
+                                    <input type="text"
+                                        ng-model="editchara.character.rank"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="rank as rank for rank in metaFactory.ranks | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop"><i class="icon icon-star"></i>employer (alt: leader) </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.attends"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">religion</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.belief">
+
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">strength</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.strengthbelief">{{editchara.character.strengthbelief}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.strengthbelief = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.strengthbelief"
+                                                ng-click="editchara.character.strengthbelief = option"
+                                                ng-selected="{{option == editchara.character.strengthbelief}}"
+                                                ng-model="editchara.character.strengthbelief">
+                                                <span ng-if="option == editchara.character.strengthbelief"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.strengthbelief"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                <label class="boxtop">tags</label>
+                                    <div ng-model="editchara.character.tags" class="tagset">
+                                        <span class="tag-box" ng-repeat="tag in editchara.character.tags" ng-click="removeFrom(tag)">
+                                            {{tag}}
+                                            <i class="icon icon-clear"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="enter new tag or select from list" ng-model="newtag">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="addNew(newtag); newtag = null " type="button">
+                                                <i class="icon icon-add"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div ng-repeat="tag in metaFactory.tags">
+                                        <div class="tag-box" ng-click="pushTo(tag)">
+                                            <i class="icon icon-add"></i>
+                                            {{tag}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="boxtop">other text</label>
+                                    <textarea class="form-control" rows="10" ng-model="editchara.character.text" ></textarea>
+
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+                        <uib-tab heading="appearance">
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">skin type</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.skindetail">{{editchara.character.skindetail}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.skindetail = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.skindetail"
+                                                ng-click="editchara.character.skindetail = option"
+                                                ng-selected="{{option == editchara.character.skindetail}}"
+                                                ng-model="editchara.character.skindetail">
+                                                <span ng-if="option == editchara.character.skindetail"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.skindetail"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">skin color</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.skin">{{editchara.character.skin}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.skin = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in skin"
+                                                ng-click="editchara.character.skin = option"
+                                                ng-selected="{{option == editchara.character.skin}}"
+                                                ng-model="editchara.character.skin">
+                                                <span ng-if="option == editchara.character.skin"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.skin"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">height</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.height">{{editchara.character.height}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.height = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.height"
+                                                ng-click="editchara.character.height = option"
+                                                ng-selected="{{option == editchara.character.height}}"
+                                                ng-model="editchara.character.height">
+                                                <span ng-if="option == editchara.character.height"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.height"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">build</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.build">{{editchara.character.build}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.build = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.build"
+                                                ng-click="editchara.character.build = option"
+                                                ng-selected="{{option == editchara.character.build}}"
+                                                ng-model="editchara.character.build">
+                                                <span ng-if="option == editchara.character.build"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.build"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">weight</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.weight">{{editchara.character.weight}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.weight = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.weight"
+                                                ng-click="editchara.character.weight = option"
+                                                ng-selected="{{option == editchara.character.weight}}"
+                                                ng-model="editchara.character.weight">
+                                                <span ng-if="option == editchara.character.weight"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.weight"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">face shape</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.faceshape">{{editchara.character.faceshape}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.faceshape = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.faceshape"
+                                                ng-click="editchara.character.faceshape = option"
+                                                ng-selected="{{option == editchara.character.faceshape}}"
+                                                ng-model="editchara.character.faceshape">
+                                                <span ng-if="option == editchara.character.faceshape"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.faceshape"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair type</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.hairtype">{{editchara.character.hairtype}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.hairtype = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.hairtype"
+                                                ng-click="editchara.character.hairtype = option"
+                                                ng-selected="{{option == editchara.character.hairtype}}"
+                                                ng-model="editchara.character.hairtype">
+                                                <span ng-if="option == editchara.character.hairtype"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.hairtype"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair length</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.hairlength">{{editchara.character.hairlength}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.hairlength = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.hairlength"
+                                                ng-click="editchara.character.hairlength = option"
+                                                ng-selected="{{option == editchara.character.hairlength}}"
+                                                ng-model="editchara.character.hairlength">
+                                                <span ng-if="option == editchara.character.hairlength"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.hairlength"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">hair color</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.haircolor">{{editchara.character.haircolor}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.haircolor = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.haircolor"
+                                                ng-click="editchara.character.haircolor = option"
+                                                ng-selected="{{option == editchara.character.haircolor}}"
+                                                ng-model="editchara.character.haircolor">
+                                                <span ng-if="option == editchara.character.haircolor"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.haircolor"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eye color</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.eyecolor">{{editchara.character.eyecolor}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.eyecolor = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.eyecolor"
+                                                ng-click="editchara.character.eyecolor = option"
+                                                ng-selected="{{option == editchara.character.eyecolor}}"
+                                                ng-model="editchara.character.eyecolor">
+                                                <span ng-if="option == editchara.character.eyecolor"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.eyecolor"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eye type</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.eyedetail">{{editchara.character.eyedetail}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.eyedetail = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.eyedetail"
+                                                ng-click="editchara.character.eyedetail = option"
+                                                ng-selected="{{option == editchara.character.eyedetail}}"
+                                                ng-model="editchara.character.eyedetail">
+                                                <span ng-if="option == editchara.character.eyedetail"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.eyedetail"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">eyebrows</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.eyebrows">{{editchara.character.eyebrows}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.eyebrows = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.eyebrows"
+                                                ng-click="editchara.character.eyebrows = option"
+                                                ng-selected="{{option == editchara.character.eyebrows}}"
+                                                ng-model="editchara.character.eyebrows">
+                                                <span ng-if="option == editchara.character.eyebrows"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.eyebrows"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <label class="boxtop">facial hair</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.facehair">{{editchara.character.facehair}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.facehair = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.facehair"
+                                                ng-click="editchara.character.facehair = option"
+                                                ng-selected="{{option == editchara.character.facehair}}"
+                                                ng-model="editchara.character.facehair">
+                                                <span ng-if="option == editchara.character.facehair"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.facehair"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">forehead</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.forehead">{{editchara.character.forehead}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.forehead = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.forehead"
+                                                ng-click="editchara.character.forehead = option"
+                                                ng-selected="{{option == editchara.character.forehead}}"
+                                                ng-model="editchara.character.forehead">
+                                                <span ng-if="option == editchara.character.forehead"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.forehead"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">nose</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.nose">{{editchara.character.nose}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.nose = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.nose"
+                                                ng-click="editchara.character.nose = option"
+                                                ng-selected="{{option == editchara.character.nose}}"
+                                                ng-model="editchara.character.nose">
+                                                <span ng-if="option == editchara.character.nose"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.nose"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">lips</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.lips">{{editchara.character.lips}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.lips = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.lips"
+                                                ng-click="editchara.character.lips = option"
+                                                ng-selected="{{option == editchara.character.lips}}"
+                                                ng-model="editchara.character.lips">
+                                                <span ng-if="option == editchara.character.lips"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.lips"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                               </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">teeth</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.teeth">{{editchara.character.teeth}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.teeth = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.teeth"
+                                                ng-click="editchara.character.teeth = option"
+                                                ng-selected="{{option == editchara.character.teeth}}"
+                                                ng-model="editchara.character.teeth">
+                                                <span ng-if="option == editchara.character.teeth"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.teeth"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                               </div>
+                               <div class="col-sm-2">
+                                    <label class="boxtop">other</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.otherface">{{editchara.character.otherface}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.otherface = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.otherface"
+                                                ng-click="editchara.character.otherface = option"
+                                                ng-selected="{{option == editchara.character.otherface}}"
+                                                ng-model="editchara.character.otherface">
+                                                <span ng-if="option == editchara.character.otherface"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.otherface"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                               </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="boxtop">gestures</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.gesture">{{editchara.character.gesture}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.gesture = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.gesture"
+                                                ng-click="editchara.character.gesture = option"
+                                                ng-selected="{{option == editchara.character.gesture}}"
+                                                ng-model="editchara.character.gesture">
+                                                <span ng-if="option == editchara.character.gesture"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.gesture"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">handedness</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.handed">{{editchara.character.handed}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.handed = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.handed"
+                                                ng-click="editchara.character.handed = option"
+                                                ng-selected="{{option == editchara.character.handed}}"
+                                                ng-model="editchara.character.handed">
+                                                <span ng-if="option == editchara.character.handed"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.handed"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">movement</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.movement">{{editchara.character.movement}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.movement = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.movement"
+                                                ng-click="editchara.character.movement = option"
+                                                ng-selected="{{option == editchara.character.movement}}"
+                                                ng-model="editchara.character.movement">
+                                                <span ng-if="option == editchara.character.movement"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.movement"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="boxtop">stance</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.stance">{{editchara.character.stance}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.stance = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.stance"
+                                                ng-click="editchara.character.stance = option"
+                                                ng-selected="{{option == editchara.character.stance}}"
+                                                ng-model="editchara.character.stance">
+                                                <span ng-if="option == editchara.character.stance"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.stance"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="boxtop">other identifying features (hairstyle, tattoos/scars, favorite clothing/jewelry, etc)</label>
+                                    <textarea class="form-control" rows="3" ng-model="editchara.character.othermarks"></textarea>
+
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+                        <uib-tab heading="personality">
+
+
+                            <div class="form-group">
+
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>according to self </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.tempra1"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="val as val for val in metaFactory.values.traits | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>according to friends </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.tempra2"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="val as val for val in metaFactory.values.traits | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>according to enemies </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.tempra3"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="val as val for val in metaFactory.values.traits | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">intelligence</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.intelligence">{{editchara.character.intelligence}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.intelligence = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.intelligence"
+                                                ng-click="editchara.character.intelligence = option"
+                                                ng-selected="{{option == editchara.character.intelligence}}"
+                                                ng-model="editchara.character.intelligence">
+                                                <span ng-if="option == editchara.character.intelligence"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.intelligence"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">knowledge</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.knowledge">{{editchara.character.knowledge}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.knowledge = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.knowledge"
+                                                ng-click="editchara.character.knowledge = option"
+                                                ng-selected="{{option == editchara.character.knowledge}}"
+                                                ng-model="editchara.character.knowledge">
+                                                <span ng-if="option == editchara.character.knowledge"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.knowledge"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                 <div class="col-sm-2">
+                                    <label class="boxtop">outlook</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.outlook">{{editchara.character.outlook}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.outlook = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.outlook"
+                                                ng-click="editchara.character.outlook = option"
+                                                ng-selected="{{option == editchara.character.outlook}}"
+                                                ng-model="editchara.character.outlook">
+                                                <span ng-if="option == editchara.character.outlook"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.outlook"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop">romantic style</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.romance">{{editchara.character.romance}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.romance = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.romance"
+                                                ng-click="editchara.character.romance = option"
+                                                ng-selected="{{option == editchara.character.romance}}"
+                                                ng-model="editchara.character.romance">
+                                                <span ng-if="option == editchara.character.romance"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.romance"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">reactions to crisis</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.crisis">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">reactions to change</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.change">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <label class="boxtop">fighting style</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.fight">{{editchara.character.fight}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.fight = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.fight"
+                                                ng-click="editchara.character.fight = option"
+                                                ng-selected="{{option == editchara.character.fight}}"
+                                                ng-model="editchara.character.fight">
+                                                <span ng-if="option == editchara.character.fight"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.fight"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label class="boxtop">argument style</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.argue">{{editchara.character.argue}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.argue = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.argue"
+                                                ng-click="editchara.character.argue = option"
+                                                ng-selected="{{option == editchara.character.argue}}"
+                                                ng-model="editchara.character.argue">
+                                                <span ng-if="option == editchara.character.argue"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.argue"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">defense mechanism</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="editchara.character.defense">{{editchara.character.defense}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.defense = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in metaFactory.values.defense"
+                                                ng-click="editchara.character.defense = option"
+                                                ng-selected="{{option == editchara.character.defense}}"
+                                                ng-model="editchara.character.defense">
+                                                <span ng-if="option == editchara.character.defense"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.defense"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <label class="boxtop">likes</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.likes">
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="boxtop">dislikes</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.dislikes">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <label class="boxtop">quirks</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="search" aria-label="Filter quirks and select." placeholder="Filter quirks and select.">
+                                        <span class="input-group-addon" ng-click="search = '' "><i class="icon icon-clear"></i></span>
+                                    </div>
+
+                                    <div class="checkboxlist">
+                                        <div class="checkbox">
+                                            <label ng-repeat="option in metaFactory.values.quirks | filter:search">
+                                                <input type="checkbox" checklist-model="editchara.character.quirks" checklist-value="option"> {{option}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="boxtop">selected quirks listed here</label>
+                                    <p ng-repeat="selection in editchara.character.quirks">{{selection}}</p>
+                                    <hr>
+                                    <label class="boxtop">other quirks or habits</label>
+                                    <textarea class="form-control" rows="6" ng-model="editchara.character.otherquirks"></textarea>
+
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+                        <uib-tab heading="relationships">
+
+                            <p ng-repeat="ochar in editchara.charlinks">
+                                For {{ochar.name}},  {{viewItem.character.name}} is a {{ochar.category}}
+                                 • <span class="description">relation:</span> {{ochar.view}}
+                                <span ng-if="ochar.history">• <span class="description">history:</span> {{ochar.history}}</span>
+                            <p>
+
+                            <div class="form-group" data-ng-repeat="ochardb in editchara.character.ochardb track by $index">
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>other character </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.ochardb[$index].name"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="char.name as char.name for char in metaFactory.names | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>
+                                        <span ng-if="editchara.character.ochardb[$index].name == ''">[other character]</span>
+                                        {{editchara.character.ochardb[$index].name}}
+                                        is {{editchara.character.name}}'s...
+                                    </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.ochardb[$index].category"
+                                        typeahead-focus-first="false"
+                                        uib-typeahead="non for non in metaFactory.values.relationtype | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="boxtop"><i class="icon icon-star"></i>{{editchara.character.name}}'s view of relation </label>
+                                    <input type="text"
+                                        ng-model="editchara.character.ochardb[$index].quality"
+                                        uib-typeahead="non for non in metaFactory.values.relationquality | filter:$viewValue | limitTo:12"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="boxtop">history</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.ochardb[$index].history">
+
+                                </div>
+
+
+                                <button class="btn btn-primary btn-sm" style="margin-top: 20px; margin-left: 15px;"
+                                    ng-show="$last"
+                                    ng-click="addOchardb()">add another</button>
+                            </div>
+                            <hr>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="boxtop">additional relationship notes</label>
+                                    <textarea class="form-control" rows="3" ng-model="editchara.character.notesochardb" ></textarea>
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+                        <uib-tab heading="{{story.title}}" ng-repeat="(indexX,story) in storysFactory.storys track by indexX" ng-show="editchara.character.roles[indexX].appears == true">
+
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <div class="btn-group">
+                                        <label class="btn btn-default" ng-model="editchara.character.roles[indexX].pov" uib-btn-checkbox> POV</label>
+                                        <label class="btn btn-default"  ng-model="editchara.character.roles[indexX].protag" uib-btn-checkbox> protagonist</label>
+                                        <label class="btn btn-default"  ng-model="editchara.character.roles[indexX].antag" uib-btn-checkbox> antagonist</label>
+                                    </div>
+                                 </div>
+
+                                <div class="col-sm-3">
+                                <label class="boxtop">role</label>
+                                    <div uib-dropdown uib-keyboard-nav>
+                                        <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                            <span ng-if="!editchara.character.roles[indexX].role">&nbsp;</span>
+                                            <span ng-if="editchara.character.roles[indexX].role">{{editchara.character.roles[indexX].role}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="uib-dropdown-menu dropselect dropdown-menu" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                            <li role="menuitem" ng-click="editchara.character.roles[indexX].role = ''">&nbsp;</li>
+                                            <li role="menuitem"
+                                                ng-repeat="option in role"
+                                                ng-click="editchara.character.roles[indexX].role = option"
+                                                ng-selected="{{option == editchara.character.roles[indexX].role}}"
+                                                ng-model="editchara.character.roles[indexX].role">
+                                                <span ng-if="option == editchara.character.roles[indexX].role"><i class="icon icon-checked-yes"></i></span>
+                                                <span ng-if="option != editchara.character.roles[indexX].role"><i class="icon icon-checked-no"></i></span>
+                                                {{option}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                 </div>
+
+                                <div class="col-sm-6">
+                                    <label class="boxtop">char's assumption on how seen</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.roles[indexX].seen">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group"  ng-show="editchara.character.roles[indexX].pov !== true">
+                                <div class="col-sm-4" ng-repeat="(indexY, name) in metaFactory.values.protags track by indexY">
+                                    <label class="boxtop">char's view of {{name}}</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.roles[indexX].view[indexY]">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="boxtop">goal</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.roles[indexX].desire">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">motivation</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.roles[indexX].motivation">
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="boxtop">obstacle</label>
+                                    <input type="text" class="form-control" ng-model="editchara.character.roles[indexX].obstacle">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="boxtop">additional notes</label>
+                                    <textarea class="form-control" rows="5" ng-model="editchara.character.roles[indexX].notes" ></textarea>
+
+                                </div>
+                            </div>
+
+                        </uib-tab>
+
+                    </uib-tabset>
+
+            </form>
+
+        </div>
+    </div>
+</div>

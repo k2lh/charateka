@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Simple JSON data for export</h2>
+            <p>Copy and paste to save. For a prettied version, paste it into a <a href="https://jsonformatter.curiousconcept.com/">formatter</a>.</p>
+
+            <uib-tabset type="pills" class="margtop10">
+                <uib-tab heading="all characters">
+                    {{charactersFactory.allcharacters | json}}
+                </uib-tab>
+                <uib-tab heading="all events">
+                    {{eventsFactory.events | json}}
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

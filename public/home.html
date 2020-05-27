@@ -1,0 +1,138 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>charateka</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic,300' rel='stylesheet' type='text/css'>
+    <link href="libs/bootstrap-css-only/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="libs/nvd3/build/nv.d3.min.css"/>
+
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="libs/angular-loading-bar/build/loading-bar.css">
+    <link rel="stylesheet" href="assets/app.css">
+
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-route/angular-route.min.js"></script>
+    <script src="libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="libs/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="libs/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script src="libs/angular-resource/angular-resource.min.js"></script>
+    <script src="libs/ngstorage/ngStorage.min.js"></script>
+    <script src="libs/angular-animate/angular-animate.min.js"></script>
+    <script src="libs/checklist-model/checklist-model.js"></script>
+    <script src="libs/d3/d3.js"></script>
+    <script src="libs/nvd3/build/nv.d3.js"></script>
+    <script src="libs/angular-nvd3/dist/angular-nvd3.js"></script>
+    <script src="libs/angular-touch/angular-touch.min.js"></script>
+
+    <script src="app.js"></script>
+    <script src="appLogin.js"></script>
+    <script src="shared/calls.js"></script>
+    <script src="shared/mainCtrl.js"></script>
+    <script src="shared/auth-service.js"></script>
+
+    <script src="pages/create-all/createAllCtrl.js"></script>
+    <script src="pages/edit-character/editCharacterCtrl.js"></script>
+    <script src="pages/view-tags/viewTagsCtrl.js"></script>
+    <script src="pages/edit-values/editValuesCtrl.js"></script>
+    <script src="pages/view-character/viewCharacterCtrl.js"></script>
+    <script src="pages/view-list/viewListCtrl.js"></script>
+    <script src="pages/edit-event/editEventCtrl.js"></script>
+    <script src="pages/view-events/viewEventsCtrl.js"></script>
+    <script src="pages/view-summary/viewSummaryCtrl.js"></script>
+    <script src="pages/view-stats/viewStatsCtrl.js"></script>
+    <script src="pages/view-info/viewInfoCtrl.js"></script>
+    <script src="pages/view-data/viewDataCtrl.js"></script>
+
+    <script src="shared/metaFactory.js"></script>
+    <script src="shared/varsFactory.js"></script>
+    <script src="shared/statsFactory.js"></script>
+    <script src="shared/charactersFactory.js"></script>
+    <script src="shared/eventsFactory.js"></script>
+    <script src="shared/storysFactory.js"></script>
+
+
+    <!--    <script src="js/script.min.js"></script>-->
+
+</head>
+<body ng-controller="mainCtrl" ng-cloak ng-class="{'apponly' : displayed }">
+    <div class="container-fluid" >
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="navbar-default" role="navigation">
+                    <span class="open-sidebar" ng-click="toggleMenu()"><i class="menu icon icon-menu"></i></span>
+                    <span uib-dropdown on-toggle="toggled(open)" class="barlink menudrop  pull-right">
+                        <a href id="simple-dropdown" uib-dropdown-toggle>
+                            <i class="icon icon-more"></i>
+                        </a>
+                        <ul class="uib-dropdown-menu text-left pull-left" aria-labelledby="simple-dropdown">
+                            <li><a href="#/edit-values" >edit values</a></li>
+                            <li><a href="#/view-summary">summaries</a></li>
+                            <li><a href="#/view-info" >icon key</a></li>
+                            <li><a href="#/view-data" >export data</a></li>
+                            <li><a href="../index.html" ng-click="leave()">logout</a></li>
+                        </ul>
+                    </span>
+                    <a href="#/view-stats" class="barlink pull-right">demographics</a>
+                    <a href="#/view-tags" class="barlink pull-right">tags</a>
+                    <a href="#/view-events" class="barlink pull-right">events</a>
+                    <a href="#/view-list" class="barlink pull-right">characters</a>
+                    <a href="#/create-all" class="barlink pull-right">add new</a>
+                    <a href="#/view-list" class="title"> charateka</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div ng-view></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer">
+                    <hr>
+                    <h3>Issues listed at <a href="https://github.com/k2lh/charateka/issues">github</a>. Log in there to comment on identified issue or to add a new one.</h3>
+
+                    <div ng-repeat="item in issues">
+                        <p><a href="{{item.html_url}}">{{item.title}}</a>: {{item.body}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" ng-hide="apponly" ng-class="{'apponly' : displayed }">
+        <div class="btn-group">
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Left'">characters</label>
+            <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Right'">events</label>
+        </div>
+        <ul class="portal">
+
+            <span ng-if="radioModel == 'Left'" class="showList">
+                <li ng-repeat="item in metaFactory.names | orderBy:'name'">
+                    <a href="#/edit-character/{{item._id}}/{{item.name}}" ng-click="setEditedChara(item._id)"><i class="icon icon-edit icolink"></i></span>
+                    <a href="#/view-character/{{item._id}}/{{item.name}}">
+                        <i class="pull-right icon icon-arrow_forward"></i>
+                        {{item.name}}
+                    </a>
+                </li>
+            </span>
+            <span ng-if="radioModel == 'Right'" class="showList">
+                <uib-tabset type="pills" class="sidebartabs">
+                    <uib-tab heading="{{story.order}}" ng-repeat="(indexX, story) in storysFactory.storys track by indexX">
+                        <li ng-repeat="(indexY, even) in eventsFactory.list track by indexY" ng-if="even.story._id == story._id">
+                            <a href="#/edit-event/{{even._id}}" class="margright10"><i class="icon icon-edit icolink"></i>
+                            {{even.title}}</a>
+                        </li>
+                    </uib-tab>
+                </uib-tabset>
+            </span>
+        </ul>
+
+    </div>
+
+
+</body>
+</html>
+

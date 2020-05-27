@@ -1,0 +1,240 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+
+            <a href="#/timeline" type="submit" class="btn btn-success pull-right" ng-click="updateEvent(editedEvent)"><i class="icon icon-check"></i> save event</a>
+            <a href="#/timeline"  class=" pull-right padright">[ cancel ]</a>
+            <h2 ng-if="editedEvent.title">Edit {{editedEvent.title}}</h2>
+            <h2 ng-if="!editedEvent.title">Create new event</h2>
+            <p  ng-if="stories.length < 1 "> You need to add a story before you can start adding events. </p>
+
+            <form class="form-horizontal create-form" role="form" novalidate>
+
+                <div class="row">
+                    <div class="col-md-9">
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label class="boxtop">story</label>
+                                <div uib-dropdown>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editedEvent.story">{{editedEvent.story.title}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editedEvent.story = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in stories"
+                                            ng-click="editedEvent.story = option"
+                                            ng-selected="{{option == editedEvent.story}}"
+                                            ng-model="editedEvent.story">
+                                            <span ng-if="option == editedEvent.story"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editedEvent.story"><i class="icon icon-checked-no"></i></span>
+                                            {{option.title}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">event title</label>
+                                <input type="text" class="form-control" ng-model="editedEvent.title">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">start date</label>
+                                <input type="text" class="form-control" value="{{editedEvent.start | date:'dd MMM yyyy h:mm a' }}" ng-model="editedEvent.start">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">end date</label>
+                                <input type="text" class="form-control" value="{{editedEvent.end | date:'dd MMM yyyy h:mm a' }}" ng-model="editedEvent.end">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label class="boxtop">follows (happens after)</label>
+                                <div uib-dropdown>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editedEvent.follows">{{editedEvent.follows.title}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editedEvent.follows = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in events"
+                                            ng-click="editedEvent.follows = option"
+                                            ng-selected="{{option == editedEvent.follows}}"
+                                            ng-model="editedEvent.follows._id">
+                                            <span ng-if="option == editedEvent.follows"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editedEvent.follows"><i class="icon icon-checked-no"></i></span>
+                                            {{option.title}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">arc</label>
+                                <div uib-dropdown>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editedEvent.arc">{{editedEvent.arc}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editedEvent.arc = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in values.arcs"
+                                            ng-click="editedEvent.arc = option"
+                                            ng-selected="{{option == editedEvent.arc}}"
+                                            ng-model="editedEvent.arc">
+                                            <span ng-if="option == editedEvent.arc"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editedEvent.arc"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="boxtop">label</label>
+                                <div uib-dropdown>
+                                    <button type="button" class="btn btn-default btn-fullwidth" uib-dropdown-toggle>
+                                        <span ng-if="editedEvent.label">{{editedEvent.label}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="uib-dropdown-menu dropselect" role="menu" aria-labelledby="single-button" data-ng-click="$event.stopPropagation()" >
+                                        <li role="menuitem" ng-click="editedEvent.label = ''">&nbsp;</li>
+                                        <li role="menuitem"
+                                            ng-repeat="option in values.labels"
+                                            ng-click="editedEvent.label = option"
+                                            ng-selected="{{option == editedEvent.label}}"
+                                            ng-model="editedEvent.label">
+                                            <span ng-if="option == editedEvent.label"><i class="icon icon-checked-yes"></i></span>
+                                            <span ng-if="option != editedEvent.label"><i class="icon icon-checked-no"></i></span>
+                                            {{option}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <label class="boxtop">notes</label>
+                        <textarea rows="6" class="form-control"  ng-model="editedEvent.text" placeholder="notes" /></textarea>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <p> To link two characters together, enter 'relationship' for the second dropdown, and the third field will become a dropdown of character names.</p>
+
+                <div class="form-group" ng-repeat="(indexA, change) in editedEvent.change track by indexA">
+                    <div class="col-md-2">
+                        <label class="boxtop">who</label>
+                        <input type="text"
+                            placeholder="who"
+                            ng-model="editedEvent.change[indexA].name"
+                            typeahead-focus-first="false"
+                            uib-typeahead="char as char.name for char in allNames | filter:$viewValue | limitTo:12"
+                            class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="boxtop">what changed</label>
+                        <input type="text"
+                            ng-model="editedEvent.change[indexA].item"
+                            placeholder="what"
+                            ng-blur="makeSelect(change.item)"
+                            typeahead-focus-first="false"
+                            uib-typeahead="value for value in listValues | filter:$viewValue | limitTo:12"
+                            class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <div ng-if="changeValue == 1">
+                            <label class="boxtop">&nbsp;</label>
+                            <input type="text"
+                                ng-model="editedEvent.change[indexA].value"
+                                placeholder="new status"
+                                uib-typeahead="value for value in selection | filter:$viewValue | limitTo:12"
+                                class="form-control" />
+                        </div>
+                        <div ng-if="changeValue < 1">
+                            <label class="boxtop">&nbsp;</label>
+                            <input type="text"
+                                ng-model="editedEvent.change[indexA].value"
+                                placeholder="result"
+                                class="form-control" />
+                        </div>
+                        <div ng-if="changeValue > 1">
+                            <label class="boxtop">&nbsp;</label>
+                            <input type="text"
+                                placeholder="who"
+                                ng-model="editedEvent.change[indexA].value"
+                                typeahead-focus-first="false"
+                                uib-typeahead="char.name as char.name for char in allNames | filter:$viewValue | limitTo:12"
+                                class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="boxtop">change notes</label>
+                        <input type="text" class="form-control" ng-model="editedEvent.change[indexA].notes" placeholder="notes">
+                    </div>
+                    <div class="col-md-1">
+                            <div class="btn btn-default margtop24" ng-click="removeChange(editedEvent.change[indexA])"><i class="icon icon-clear"></i></div>
+                    </div>
+                    <button class="btn btn-primary margtop15" style="margin-left: 15px;"
+                        ng-show="$last"
+                        ng-click="addChanges()">add another change</button>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+
+                    <div class="col-md-4">
+                        <label class="boxtop">participants with dialogue</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="search" aria-label="Filter characters and select." placeholder="Filter characters and select.">
+                            <span class="input-group-addon" ng-click="search = '' "><i class="icon icon-clear"></i></span>
+                        </div>
+                        <div class="checkboxlist">
+                            <div class="checkbox ">
+                                <label ng-repeat="chara in allNames | filter:search ">
+                                    <input type="checkbox" checklist-model="editedEvent.speak" checklist-value="chara"> {{chara.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="boxtop">participants with no dialogue</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="search" aria-label="Filter characters and select." placeholder="Filter characters and select.">
+                            <span class="input-group-addon" ng-click="search = '' "><i class="icon icon-clear"></i></span>
+                        </div>
+                        <div class="checkboxlist">
+                            <div class="checkbox ">
+                                <label ng-repeat="chara in allNames | filter:search ">
+                                    <input type="checkbox" checklist-model="editedEvent.nospeak" checklist-value="chara"> {{chara.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="boxtop">offpage characters mentioned</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="search" aria-label="Filter characters and select." placeholder="Filter characters and select.">
+                            <span class="input-group-addon" ng-click="search = '' "><i class="icon icon-clear"></i></span>
+                        </div>
+                        <div class="checkboxlist">
+                            <div class="checkbox ">
+                                <label ng-repeat="chara in allNames | filter:search ">
+                                    <input type="checkbox" checklist-model="editedEvent.reffed" checklist-value="chara"> {{chara.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

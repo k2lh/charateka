@@ -1,0 +1,16 @@
+{
+    "undef": true,
+    "unused": true,
+    "browser": true,
+    "strict": true,
+    "trailing": true,
+    "globals": {
+        "angular": true
+    },
+    "predef": [
+        "angular",
+        "app",
+        "appLogin",
+        "console"
+    ]
+}

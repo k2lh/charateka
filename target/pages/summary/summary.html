@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="item display">
+            <h2>Summaries from notes</h2>
+            <uib-tabset type="pills" class="margtop10">
+                <uib-tab heading="{{story.title}}" ng-repeat="(indexX,story) in stories track by indexX">
+                    <div ng-repeat="(indexY, even) in events track by indexY" ng-if="even.story._id == story._id">
+                        <p> {{even.text}}</p>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
